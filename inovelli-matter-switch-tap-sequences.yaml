@@ -8,7 +8,7 @@ blueprint:
   input:
     entity_config:
       name: <Device Name> Config
-      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Config > Setting Icon > entity_id
+      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Config > Settings Icon > entity_id
       selector:
         entity:
           filter:
@@ -16,7 +16,7 @@ blueprint:
             device_class: button
     entity_down:
       name: <Device Name> Down
-      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Down > Setting Icon > entity_id 
+      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Down > Settings Icon > entity_id 
       selector:
         entity:
           filter:
@@ -24,7 +24,7 @@ blueprint:
             device_class: button
     entity_up:
       name: <Device Name> Up
-      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Up > Setting Icon > entity_id
+      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Up > Settings Icon > entity_id
       selector:
         entity:
           filter:
