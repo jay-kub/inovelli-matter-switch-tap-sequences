@@ -188,43 +188,43 @@ action:
           - choose:
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_up
+                    entity_id: !input entity_up
                     attribute: event_type
                     state: multi_press_1
                 sequence: !input 'up1'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_up
+                    entity_id: !input entity_up
                     attribute: event_type
                     state: multi_press_2
                 sequence: !input 'up2'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_up
+                    entity_id: !input entity_up
                     attribute: event_type
                     state: multi_press_3
                 sequence: !input 'up3'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_up
+                    entity_id: !input entity_up
                     attribute: event_type
                     state: multi_press_4
                 sequence: !input 'up4'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_up
+                    entity_id: !input entity_up
                     attribute: event_type
                     state: multi_press_5
                 sequence: !input 'up5'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_up
+                    entity_id: !input entity_up
                     attribute: event_type
                     state: long_press
                 sequence: !input 'upHeld'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_up
+                    entity_id: !input entity_up
                     attribute: event_type
                     state: long_release
                 sequence: !input 'upReleased'
