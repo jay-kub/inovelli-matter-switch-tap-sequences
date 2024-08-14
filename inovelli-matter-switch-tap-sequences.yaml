@@ -236,43 +236,43 @@ action:
           - choose:
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_down
+                    entity_id: !input entity_down
                     attribute: event_type
                     state: multi_press_1
                 sequence: !input 'down1'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_down
+                    entity_id: !input entity_down
                     attribute: event_type
                     state: multi_press_2
                 sequence: !input 'down2'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_down
+                    entity_id: !input entity_down
                     attribute: event_type
                     state: multi_press_3
                 sequence: !input 'down3'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_down
+                    entity_id: !input entity_down
                     attribute: event_type
                     state: multi_press_4
                 sequence: !input 'down4'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_down
+                    entity_id: !input entity_down
                     attribute: event_type
                     state: multi_press_5
                 sequence: !input 'down5'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_down
+                    entity_id: !input entity_down
                     attribute: event_type
                     state: long_press
                 sequence: !input 'downHeld'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_down
+                    entity_id: !input entity_down
                     attribute: event_type
                     state: long_release
                 sequence: !input 'downReleased'
@@ -284,43 +284,43 @@ action:
           - choose:
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_config
+                    entity_id: !input entity_config
                     attribute: event_type
                     state: multi_press_1
                 sequence: !input 'config1'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_config
+                    entity_id: !input entity_config
                     attribute: event_type
                     state: multi_press_2
                 sequence: !input 'config2'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_config
+                    entity_id: !input entity_config
                     attribute: event_type
                     state: multi_press_3
                 sequence: !input 'config3'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_config
+                    entity_id: !input entity_config
                     attribute: event_type
                     state: multi_press_4
                 sequence: !input 'config4'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_config
+                    entity_id: !input entity_config
                     attribute: event_type
                     state: multi_press_5
                 sequence: !input 'config5'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_config
+                    entity_id: !input entity_config
                     attribute: event_type
                     state: long_press
                 sequence: !input 'configHeld'
               - conditions:
                   - condition: state
-                    entity_id: event.bath_fan_config
+                    entity_id: !input entity_config
                     attribute: event_type
                     state: long_release
                 sequence: !input 'configReleased'
