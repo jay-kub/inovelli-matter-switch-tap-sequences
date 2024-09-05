@@ -1,329 +1,360 @@
 blueprint:
   name: Inovelli Matter Switch Tap Sequences
-  description: "Create an automation to perform predefined actions when a button on an Inovelli switch is clicked.\n\n
-    Supported Models: \n\n-
-    VTM31-SN\n- VTM35-SN\n\n Version 0.1"
+  description: "Create an automation to perform predefined actions when a button on
+    an Inovelli switch is clicked.\n\n Supported Models: \n\n- VTM31-SN\n- VTM35-SN\n\n
+    Version 0.1"
   domain: automation
   author: jay-kub
+  homeassistant:
+    min_version: 2024.8.0
   input:
-    entity_config:
-      name: <Device Name> Config
-      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Config > Settings Icon > entity_id
-      selector:
-        entity:
-          filter:
-            integration: matter
-            domain: event
-            device_class: button
-    entity_down:
-      name: <Device Name> Down
-      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Down > Settings Icon > entity_id 
-      selector:
-        entity:
-          filter:
-            integration: matter
-            domain: event
-            device_class: button
-    entity_up:
-      name: <Device Name> Up
-      description: Go to Settings > Devices & services > Matter > \# Devices > *Select your device* > Events > Up > Settings Icon > entity_id
-      selector:
-        entity:
-          filter:
-            integration: matter
-            domain: event
-            device_class: button
-    up1:
-      name: Up 1
-      description: When Up is pressed 1 time
-      default: []
-      selector:
-        action: {}
-    down1:
-      name: Down 1
-      description: When Down is pressed 1 time
-      default: []
-      selector:
-        action: {}
-    up2:
-      name: Up 2
-      description: When Up is pressed 2 times
-      default: []
-      selector:
-        action: {}
-    down2:
-      name: Down 2
-      description: When Down is pressed 2 times
-      default: []
-      selector:
-        action: {}
-    up3:
-      name: Up 3
-      description: When Up is pressed 3 times
-      default: []
-      selector:
-        action: {}
-    down3:
-      name: Down 3
-      description: When Down is pressed 3 times
-      default: []
-      selector:
-        action: {}
-    up4:
-      name: Up 4
-      description: When Up is pressed 4 times
-      default: []
-      selector:
-        action: {}
-    down4:
-      name: Down 4
-      description: When Down is pressed 4 times
-      default: []
-      selector:
-        action: {}
-    up5:
-      name: Up 5
-      description: When Up is pressed 5 times
-      default: []
-      selector:
-        action: {}
-    down5:
-      name: Down 5
-      description: When Down is pressed 5 times
-      default: []
-      selector:
-        action: {}
-    config1:
-      name: Config 1
-      description: When Config is pressed 1 time
-      default: []
-      selector:
-        action: {}
-    config2:
-      name: Config 2
-      description: When Config is pressed 2 times
-      default: []
-      selector:
-        action: {}
-    config3:
-      name: Config 3
-      description: When Config is pressed 3 times
-      default: []
-      selector:
-        action: {}
-    config4:
-      name: Config 4
-      description: When Config is pressed 4 times
-      default: []
-      selector:
-        action: {}
-    config5:
-      name: Config 5
-      description: When Config is pressed 5 times
-      default: []
-      selector:
-        action: {}
-    upHeld:
-      name: Up Held
-      description: When Up is held
-      default: []
-      selector:
-        action: {}
-    upReleased:
-      name: Up Released
-      description: When Up is released
-      default: []
-      selector:
-        action: {}
-    downHeld:
-      name: Down Held
-      description: When Down is held
-      default: []
-      selector:
-        action: {}
-    downReleased:
-      name: Down Released
-      description: When Down is released
-      default: []
-      selector:
-        action: {}
-    configHeld:
-      name: Config Held
-      description: When Config is held
-      default: []
-      selector:
-        action: {}
-    configReleased:
-      name: Config Released
-      description: When Config is released
-      default: []
-      selector:
-        action: {}
+    entity_inputs:
+      name: Entities
+      icon: mdi:devices  
+      input:
+        entity_config:
+          name: <Device Name> Config
+          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
+            your device* > Events > Config > Settings Icon > entity_id
+          selector:
+            entity:
+              filter:
+              - integration: matter
+                domain:
+                - event
+                device_class:
+                - button
+              multiple: false
+        entity_down:
+          name: <Device Name> Down
+          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
+            your device* > Events > Down > Settings Icon > entity_id
+          selector:
+            entity:
+              filter:
+              - integration: matter
+                domain:
+                - event
+                device_class:
+                - button
+              multiple: false
+        entity_up:
+          name: <Device Name> Up
+          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
+            your device* > Events > Up > Settings Icon > entity_id
+          selector:
+            entity:
+              filter:
+              - integration: matter
+                domain:
+                - event
+                device_class:
+                - button
+              multiple: false
+    up_inputs:
+      name: Up
+      icon: mdi:cog
+      input:
+        up1:
+          name: Single
+          description: When Up is pressed 1 time
+          default: []
+          selector:
+            action: {}
+        up2:
+          name: Double
+          description: When Up is pressed 2 times
+          default: []
+          selector:
+            action: {}
+        up3:
+          name: Triple
+          description: When Up is pressed 3 times
+          default: []
+          selector:
+            action: {}
+        up4:
+          name: Quadruple
+          description: When Up is pressed 4 times
+          default: []
+          selector:
+            action: {}
+        up5:
+          name: Quintuple
+          description: When Up is pressed 5 times
+          default: []
+          selector:
+            action: {}
+        upHeld:
+          name: Up Held
+          description: When Up is held
+          default: []
+          selector:
+            action: {}
+        upReleased:
+          name: Up Released
+          description: When Up is released
+          default: []
+          selector:
+            action: {}
+    down_inputs:
+      name: Down
+      icon: mdi:cog
+      input:
+        down1:
+          name: Single
+          description: When Down is pressed 1 time
+          default: []
+          selector:
+            action: {}
+        down2:
+          name: Double
+          description: When Down is pressed 2 times
+          default: []
+          selector:
+            action: {}
+        down3:
+          name: Triple
+          description: When Down is pressed 3 times
+          default: []
+          selector:
+            action: {}
+        down4:
+          name: Quadruple
+          description: When Down is pressed 4 times
+          default: []
+          selector:
+            action: {}
+        down5:
+          name: Quintuple
+          description: When Down is pressed 5 times
+          default: []
+          selector:
+            action: {}
+        downHeld:
+          name: Down Held
+          description: When Down is held
+          default: []
+          selector:
+            action: {}
+        downReleased:
+          name: Down Released
+          description: When Down is released
+          default: []
+          selector:
+            action: {}
+    config_inputs:
+      name: Config
+      icon: mdi:cog
+      input:
+        config1:
+          name: Single
+          description: When Config is pressed 1 time
+          default: []
+          selector:
+            action: {}
+        config2:
+          name: Double
+          description: When Config is pressed 2 times
+          default: []
+          selector:
+            action: {}
+        config3:
+          name: Triple
+          description: When Config is pressed 3 times
+          default: []
+          selector:
+            action: {}
+        config4:
+          name: Quadruple
+          description: When Config is pressed 4 times
+          default: []
+          selector:
+            action: {}
+        config5:
+          name: Quintuple
+          description: When Config is pressed 5 times
+          default: []
+          selector:
+            action: {}
+        configHeld:
+          name: Config Held
+          description: When Config is held
+          default: []
+          selector:
+            action: {}
+        configReleased:
+          name: Config Released
+          description: When Config is released
+          default: []
+          selector:
+            action: {}
+  source_url: https://github.com/gravityrebel/inovelli-matter-switch-tap-sequences/blob/improved-filtering/inovelli-matter-switch-tap-sequences.yaml
 mode: queued
 max_exceeded: silent
 trigger:
-  - platform: state
-    entity_id: !input entity_up
-    not_from:
-      - unknown
-      - unavailable
-    id: up
-  - platform: state
-    entity_id: !input entity_down
-    not_from:
-      - unknown
-      - unavailable
-    id: down
-  - platform: state
-    entity_id: !input entity_config
-    not_from:
-      - unknown
-      - unavailable
-    id: config
+- platform: state
+  entity_id: !input entity_up
+  not_from:
+  - unknown
+  - unavailable
+  id: up
+- platform: state
+  entity_id: !input entity_down
+  not_from:
+  - unknown
+  - unavailable
+  id: down
+- platform: state
+  entity_id: !input entity_config
+  not_from:
+  - unknown
+  - unavailable
+  id: config
 condition: []
 action:
-  - choose:
+- choose:
+  - conditions:
+    - condition: trigger
+      id:
+      - up
+    sequence:
+    - choose:
       - conditions:
-          - condition: trigger
-            id:
-              - up
-        sequence:
-          - choose:
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_up
-                    attribute: event_type
-                    state: multi_press_1
-                sequence: !input 'up1'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_up
-                    attribute: event_type
-                    state: multi_press_2
-                sequence: !input 'up2'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_up
-                    attribute: event_type
-                    state: multi_press_3
-                sequence: !input 'up3'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_up
-                    attribute: event_type
-                    state: multi_press_4
-                sequence: !input 'up4'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_up
-                    attribute: event_type
-                    state: multi_press_5
-                sequence: !input 'up5'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_up
-                    attribute: event_type
-                    state: long_press
-                sequence: !input 'upHeld'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_up
-                    attribute: event_type
-                    state: long_release
-                sequence: !input 'upReleased'
+        - condition: state
+          entity_id: !input entity_up
+          attribute: event_type
+          state: multi_press_1
+        sequence: !input up1
       - conditions:
-          - condition: trigger
-            id:
-              - down
-        sequence:
-          - choose:
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_down
-                    attribute: event_type
-                    state: multi_press_1
-                sequence: !input 'down1'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_down
-                    attribute: event_type
-                    state: multi_press_2
-                sequence: !input 'down2'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_down
-                    attribute: event_type
-                    state: multi_press_3
-                sequence: !input 'down3'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_down
-                    attribute: event_type
-                    state: multi_press_4
-                sequence: !input 'down4'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_down
-                    attribute: event_type
-                    state: multi_press_5
-                sequence: !input 'down5'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_down
-                    attribute: event_type
-                    state: long_press
-                sequence: !input 'downHeld'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_down
-                    attribute: event_type
-                    state: long_release
-                sequence: !input 'downReleased'
+        - condition: state
+          entity_id: !input entity_up
+          attribute: event_type
+          state: multi_press_2
+        sequence: !input up2
       - conditions:
-          - condition: trigger
-            id:
-              - config
-        sequence:
-          - choose:
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_config
-                    attribute: event_type
-                    state: multi_press_1
-                sequence: !input 'config1'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_config
-                    attribute: event_type
-                    state: multi_press_2
-                sequence: !input 'config2'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_config
-                    attribute: event_type
-                    state: multi_press_3
-                sequence: !input 'config3'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_config
-                    attribute: event_type
-                    state: multi_press_4
-                sequence: !input 'config4'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_config
-                    attribute: event_type
-                    state: multi_press_5
-                sequence: !input 'config5'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_config
-                    attribute: event_type
-                    state: long_press
-                sequence: !input 'configHeld'
-              - conditions:
-                  - condition: state
-                    entity_id: !input entity_config
-                    attribute: event_type
-                    state: long_release
-                sequence: !input 'configReleased'
+        - condition: state
+          entity_id: !input entity_up
+          attribute: event_type
+          state: multi_press_3
+        sequence: !input up3
+      - conditions:
+        - condition: state
+          entity_id: !input entity_up
+          attribute: event_type
+          state: multi_press_4
+        sequence: !input up4
+      - conditions:
+        - condition: state
+          entity_id: !input entity_up
+          attribute: event_type
+          state: multi_press_5
+        sequence: !input up5
+      - conditions:
+        - condition: state
+          entity_id: !input entity_up
+          attribute: event_type
+          state: long_press
+        sequence: !input upHeld
+      - conditions:
+        - condition: state
+          entity_id: !input entity_up
+          attribute: event_type
+          state: long_release
+        sequence: !input upReleased
+  - conditions:
+    - condition: trigger
+      id:
+      - down
+    sequence:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: !input entity_down
+          attribute: event_type
+          state: multi_press_1
+        sequence: !input down1
+      - conditions:
+        - condition: state
+          entity_id: !input entity_down
+          attribute: event_type
+          state: multi_press_2
+        sequence: !input down2
+      - conditions:
+        - condition: state
+          entity_id: !input entity_down
+          attribute: event_type
+          state: multi_press_3
+        sequence: !input down3
+      - conditions:
+        - condition: state
+          entity_id: !input entity_down
+          attribute: event_type
+          state: multi_press_4
+        sequence: !input down4
+      - conditions:
+        - condition: state
+          entity_id: !input entity_down
+          attribute: event_type
+          state: multi_press_5
+        sequence: !input down5
+      - conditions:
+        - condition: state
+          entity_id: !input entity_down
+          attribute: event_type
+          state: long_press
+        sequence: !input downHeld
+      - conditions:
+        - condition: state
+          entity_id: !input entity_down
+          attribute: event_type
+          state: long_release
+        sequence: !input downReleased
+  - conditions:
+    - condition: trigger
+      id:
+      - config
+    sequence:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: multi_press_1
+        sequence: !input config1
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: multi_press_2
+        sequence: !input config2
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: multi_press_3
+        sequence: !input config3
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: multi_press_4
+        sequence: !input config4
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: multi_press_5
+        sequence: !input config5
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: long_press
+        sequence: !input configHeld
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: long_release
+        sequence: !input configReleased
