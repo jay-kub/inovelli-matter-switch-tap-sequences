@@ -12,6 +12,7 @@ blueprint:
       selector:
         entity:
           filter:
+            integration: matter
             domain: event
             device_class: button
     entity_down:
@@ -20,6 +21,7 @@ blueprint:
       selector:
         entity:
           filter:
+            integration: matter
             domain: event
             device_class: button
     entity_up:
@@ -28,6 +30,7 @@ blueprint:
       selector:
         entity:
           filter:
+            integration: matter
             domain: event
             device_class: button
     up1:
@@ -146,13 +149,13 @@ blueprint:
         action: {}
     configHeld:
       name: Config Held
-      description: When Up is held
+      description: When Config is held
       default: []
       selector:
         action: {}
     configReleased:
       name: Config Released
-      description: When Up is released
+      description: When Config is released
       default: []
       selector:
         action: {}
