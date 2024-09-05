@@ -189,172 +189,172 @@ blueprint:
           default: []
           selector:
             action: {}
-  source_url: https://github.com/gravityrebel/inovelli-matter-switch-tap-sequences/blob/improved-filtering/inovelli-matter-switch-tap-sequences.yaml
+  source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/main/inovelli-matter-switch-tap-sequences.yaml
 mode: queued
 max_exceeded: silent
 trigger:
-- platform: state
-  entity_id: !input entity_up
-  not_from:
-  - unknown
-  - unavailable
-  id: up
-- platform: state
-  entity_id: !input entity_down
-  not_from:
-  - unknown
-  - unavailable
-  id: down
-- platform: state
-  entity_id: !input entity_config
-  not_from:
-  - unknown
-  - unavailable
-  id: config
+  - platform: state
+    entity_id: !input entity_up
+    not_from:
+      - unknown
+      - unavailable
+    id: up
+  - platform: state
+    entity_id: !input entity_down
+    not_from:
+      - unknown
+      - unavailable
+    id: down
+  - platform: state
+    entity_id: !input entity_config
+    not_from:
+      - unknown
+      - unavailable
+    id: config
 condition: []
 action:
-- choose:
-  - conditions:
-    - condition: trigger
-      id:
-      - up
-    sequence:
-    - choose:
+  - choose:
       - conditions:
-        - condition: state
-          entity_id: !input entity_up
-          attribute: event_type
-          state: multi_press_1
-        sequence: !input up1
+          - condition: trigger
+            id:
+              - up
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_up
+                    attribute: event_type
+                    state: multi_press_1
+                sequence: !input 'up1'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_up
+                    attribute: event_type
+                    state: multi_press_2
+                sequence: !input 'up2'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_up
+                    attribute: event_type
+                    state: multi_press_3
+                sequence: !input 'up3'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_up
+                    attribute: event_type
+                    state: multi_press_4
+                sequence: !input 'up4'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_up
+                    attribute: event_type
+                    state: multi_press_5
+                sequence: !input 'up5'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_up
+                    attribute: event_type
+                    state: long_press
+                sequence: !input 'upHeld'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_up
+                    attribute: event_type
+                    state: long_release
+                sequence: !input 'upReleased'
       - conditions:
-        - condition: state
-          entity_id: !input entity_up
-          attribute: event_type
-          state: multi_press_2
-        sequence: !input up2
+          - condition: trigger
+            id:
+              - down
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_down
+                    attribute: event_type
+                    state: multi_press_1
+                sequence: !input 'down1'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_down
+                    attribute: event_type
+                    state: multi_press_2
+                sequence: !input 'down2'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_down
+                    attribute: event_type
+                    state: multi_press_3
+                sequence: !input 'down3'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_down
+                    attribute: event_type
+                    state: multi_press_4
+                sequence: !input 'down4'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_down
+                    attribute: event_type
+                    state: multi_press_5
+                sequence: !input 'down5'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_down
+                    attribute: event_type
+                    state: long_press
+                sequence: !input 'downHeld'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_down
+                    attribute: event_type
+                    state: long_release
+                sequence: !input 'downReleased'
       - conditions:
-        - condition: state
-          entity_id: !input entity_up
-          attribute: event_type
-          state: multi_press_3
-        sequence: !input up3
-      - conditions:
-        - condition: state
-          entity_id: !input entity_up
-          attribute: event_type
-          state: multi_press_4
-        sequence: !input up4
-      - conditions:
-        - condition: state
-          entity_id: !input entity_up
-          attribute: event_type
-          state: multi_press_5
-        sequence: !input up5
-      - conditions:
-        - condition: state
-          entity_id: !input entity_up
-          attribute: event_type
-          state: long_press
-        sequence: !input upHeld
-      - conditions:
-        - condition: state
-          entity_id: !input entity_up
-          attribute: event_type
-          state: long_release
-        sequence: !input upReleased
-  - conditions:
-    - condition: trigger
-      id:
-      - down
-    sequence:
-    - choose:
-      - conditions:
-        - condition: state
-          entity_id: !input entity_down
-          attribute: event_type
-          state: multi_press_1
-        sequence: !input down1
-      - conditions:
-        - condition: state
-          entity_id: !input entity_down
-          attribute: event_type
-          state: multi_press_2
-        sequence: !input down2
-      - conditions:
-        - condition: state
-          entity_id: !input entity_down
-          attribute: event_type
-          state: multi_press_3
-        sequence: !input down3
-      - conditions:
-        - condition: state
-          entity_id: !input entity_down
-          attribute: event_type
-          state: multi_press_4
-        sequence: !input down4
-      - conditions:
-        - condition: state
-          entity_id: !input entity_down
-          attribute: event_type
-          state: multi_press_5
-        sequence: !input down5
-      - conditions:
-        - condition: state
-          entity_id: !input entity_down
-          attribute: event_type
-          state: long_press
-        sequence: !input downHeld
-      - conditions:
-        - condition: state
-          entity_id: !input entity_down
-          attribute: event_type
-          state: long_release
-        sequence: !input downReleased
-  - conditions:
-    - condition: trigger
-      id:
-      - config
-    sequence:
-    - choose:
-      - conditions:
-        - condition: state
-          entity_id: !input entity_config
-          attribute: event_type
-          state: multi_press_1
-        sequence: !input config1
-      - conditions:
-        - condition: state
-          entity_id: !input entity_config
-          attribute: event_type
-          state: multi_press_2
-        sequence: !input config2
-      - conditions:
-        - condition: state
-          entity_id: !input entity_config
-          attribute: event_type
-          state: multi_press_3
-        sequence: !input config3
-      - conditions:
-        - condition: state
-          entity_id: !input entity_config
-          attribute: event_type
-          state: multi_press_4
-        sequence: !input config4
-      - conditions:
-        - condition: state
-          entity_id: !input entity_config
-          attribute: event_type
-          state: multi_press_5
-        sequence: !input config5
-      - conditions:
-        - condition: state
-          entity_id: !input entity_config
-          attribute: event_type
-          state: long_press
-        sequence: !input configHeld
-      - conditions:
-        - condition: state
-          entity_id: !input entity_config
-          attribute: event_type
-          state: long_release
-        sequence: !input configReleased
+          - condition: trigger
+            id:
+              - config
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_config
+                    attribute: event_type
+                    state: multi_press_1
+                sequence: !input 'config1'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_config
+                    attribute: event_type
+                    state: multi_press_2
+                sequence: !input 'config2'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_config
+                    attribute: event_type
+                    state: multi_press_3
+                sequence: !input 'config3'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_config
+                    attribute: event_type
+                    state: multi_press_4
+                sequence: !input 'config4'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_config
+                    attribute: event_type
+                    state: multi_press_5
+                sequence: !input 'config5'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_config
+                    attribute: event_type
+                    state: long_press
+                sequence: !input 'configHeld'
+              - conditions:
+                  - condition: state
+                    entity_id: !input entity_config
+                    attribute: event_type
+                    state: long_release
+                sequence: !input 'configReleased'
