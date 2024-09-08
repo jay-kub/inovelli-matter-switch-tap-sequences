@@ -2,14 +2,14 @@ blueprint:
   name: Inovelli Matter Switch Tap Sequences
   description: "Create an automation to perform predefined actions when a button on
     an Inovelli switch is clicked.\n\n Supported Models: \n\n- VTM31-SN\n- VTM35-SN\n\n
-    Version 0.1"
+    Version 0.2"
   domain: automation
   author: jay-kub
   homeassistant:
     min_version: 2024.8.0
   input:
     entity_inputs:
-      name: Entities
+      name: Inovelli Switch Entities
       icon: mdi:devices  
       input:
         entity_config:
@@ -50,6 +50,15 @@ blueprint:
                 - event
                 device_class:
                 - button
+              multiple: false
+        entity_light:
+          name: <Device Name> Light
+          description: Select the light entity for the Inovelli Switch
+          selector:
+            entity:
+              filter:
+              - domain:
+                - light
               multiple: false
     up_inputs:
       name: Up
@@ -189,28 +198,65 @@ blueprint:
           default: []
           selector:
             action: {}
+    sync_target_inputs:
+      name: Sync Target
+      icon: mdi:sync
+      input:
+        target_light:
+          name: Target Light(s)
+          description: Select the light entity that will be synced to the Inovelli Switch
+          selector:
+            entity:
+              filter:
+              - domain:
+                - light
+              multiple: true
+        min_brightness:
+          name: Minimum Brightness
+          description: Set the minimum brightness for the target light(s), as a percentage (1-100).
+          default: 1
+          selector:
+            number:
+              min: 1
+              max: 100
   source_url: https://github.com/gravityrebel/inovelli-matter-switch-tap-sequences/blob/improved-filtering/inovelli-matter-switch-tap-sequences.yaml
-mode: queued
+mode: restart
 max_exceeded: silent
+variables:
+  controlLight: !input entity_light
 trigger:
-- platform: state
-  entity_id: !input entity_up
-  not_from:
-  - unknown
-  - unavailable
-  id: up
-- platform: state
-  entity_id: !input entity_down
-  not_from:
-  - unknown
-  - unavailable
-  id: down
-- platform: state
-  entity_id: !input entity_config
-  not_from:
-  - unknown
-  - unavailable
-  id: config
+  - platform: state
+    entity_id: !input entity_up
+    not_from:
+    - unknown
+    - unavailable
+    id: up
+  - platform: state
+    entity_id: !input entity_down
+    not_from:
+    - unknown
+    - unavailable
+    id: down
+  - platform: state
+    entity_id: !input entity_config
+    not_from:
+    - unknown
+    - unavailable
+    id: config
+  - platform: state
+    entity_id: !input entity_light
+    id: turnOn
+    from: "off"
+    to: "on"
+  - platform: state
+    entity_id: !input entity_light
+    id: turnOff
+    from: "on"
+    to: "off"
+  - platform: state
+    entity_id: !input entity_light
+    attribute: brightness
+    id: turnOn
 condition: []
 action:
 - choose:
@@ -358,3 +404,33 @@ action:
           attribute: event_type
           state: long_release
         sequence: !input configReleased
+  - conditions:
+      - condition: trigger
+        id:
+          - turnOff
+    sequence:
+    - variables:
+        controlLight: !input entity_light
+    - action: light.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: !input target_light
+  - conditions:
+      - condition: trigger
+        id:
+          - turnOn
+    sequence:
+    - variables:
+        controlLight: !input entity_light
+        controlLightBrightness: |
+          {{ (state_attr(controlLight, 'brightness') / 2.55) }}
+        minBrightness: !input min_brightness
+        brightnessValue: |
+          {{ (((100 - minBrightness) / 100 ) * controlLightBrightness + minBrightness ) | round(0) }}
+    - action: light.turn_on
+      metadata: {}
+      data:
+        brightness_pct: '{{ brightnessValue }}'
+      target:
+        entity_id: !input target_light
