@@ -53,10 +53,8 @@ blueprint:
             entity:
               filter:
               - integration: matter
-                domain:
-                - event
-                device_class:
-                - button
+                domain: event
+                device_class: button
               multiple: false
         entity_up:
           name: Event Entity for Up
@@ -65,10 +63,8 @@ blueprint:
             entity:
               filter:
               - integration: matter
-                domain:
-                - event
-                device_class:
-                - button
+                domain: event
+                device_class: button
               multiple: false
         entity_light:
           name: Light Entity
@@ -76,8 +72,8 @@ blueprint:
           selector:
             entity:
               filter:
-              - domain:
-                - light
+              - domain: light
+                integration: matter
               multiple: false
     up_inputs:
       name: Up
