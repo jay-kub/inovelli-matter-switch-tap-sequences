@@ -17,7 +17,7 @@ blueprint:
       - Default on brightness should match for all devices
       - Only use minimum brightness if your device does not already have a setting for it
 
-    Please note, when Minimum Brightness is > 1, the script will ensure the Target Light never falls below that value, with an adjusted linear scale 
+    Please note, when Minimum Brightness is > 1, the automation will ensure the Target Light never falls below that value, with an adjusted linear scale 
     between the minimum value and 100%. Because of this, the brightness value for each light may not always match.
     
     Supported Models:
@@ -43,10 +43,8 @@ blueprint:
             entity:
               filter:
               - integration: matter
-                domain:
-                - event
-                device_class:
-                - button
+                domain: event
+                device_class: button
               multiple: false
         entity_down:
           name: Event Entity for Down
@@ -243,12 +241,12 @@ blueprint:
               max: 100
         reverse_sync:
           name: Reverse Sync
-          description: If the target light is toggled on/off by an outside service, the Inovelli Switch will sync.
+          description: If the target light is toggled on/off by an outside source, the Inovelli Switch will sync.
           default: false
           selector:
             boolean: {}
   source_url: https://github.com/gravityrebel/inovelli-matter-switch-tap-sequences/blob/improved-filtering/inovelli-matter-switch-tap-sequences.yaml
-mode: restart
+mode: queued
 max_exceeded: silent
 variables:
   controlLight: !input entity_light
