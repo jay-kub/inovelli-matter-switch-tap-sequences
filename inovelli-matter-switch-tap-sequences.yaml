@@ -198,10 +198,16 @@ blueprint:
           default: []
           selector:
             action: {}
-    sync_target_inputs:
-      name: Sync Target
+    binding_inputs:
+      name: Light Bindings
       icon: mdi:sync
       input:
+        light_binding:
+          name: Enable Light Binding
+          description: Sync the on/off state and brightness of the Inovelli Switch to a target light.
+          default: false
+          selector:
+            boolean: {}
         target_light:
           name: Target Light(s)
           description: Select the light entity that will be synced to the Inovelli Switch
@@ -219,11 +225,18 @@ blueprint:
             number:
               min: 1
               max: 100
+        reverse_sync:
+          name: Reverse Sync
+          description: If the target light is toggled on/off by an outside service, the Inovelli Switch will sync.
+          default: false
+          selector:
+            boolean: {}
   source_url: https://github.com/gravityrebel/inovelli-matter-switch-tap-sequences/blob/improved-filtering/inovelli-matter-switch-tap-sequences.yaml
 mode: restart
 max_exceeded: silent
 variables:
   controlLight: !input entity_light
+  reverseSync: !input reverse_sync
 trigger:
   - platform: state
     entity_id: !input entity_up
@@ -253,6 +266,16 @@ trigger:
     id: turnOff
     from: "on"
     to: "off"
+  - platform: state
+    entity_id: !input target_light
+    id: reverseSyncOff
+    from: "on"
+    to: "off"
+  - platform: state
+    entity_id: !input target_light
+    id: reverseSyncOn
+    from: "off"
+    to: "on"
   - platform: state
     entity_id: !input entity_light
     attribute: brightness
@@ -416,6 +439,33 @@ action:
       data: {}
       target:
         entity_id: !input target_light
+  - conditions:
+      - condition: trigger
+        id:
+          - reverseSyncOff
+          - reverseSyncOn
+    sequence:
+      - if: '{{ reverseSync }}'
+        then:
+          - choose:
+              - conditions:
+                  - condition: trigger
+                    id:
+                      - reverseSyncOff
+                sequence:
+                - action: light.turn_off
+                  target:
+                    entity_id: !input entity_light
+                  data: {}
+              - conditions:
+                  - condition: trigger
+                    id:
+                      - reverseSyncOn
+                sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id: !input entity_light
+                  data: {}
   - conditions:
       - condition: trigger
         id:
