@@ -37,9 +37,9 @@ blueprint:
         your device* > Events > Up > Settings Icon > entity_id"
       icon: mdi:devices
       input:
-        config_event:
-          name: Event Entity for Config
-          description: The event entity for Config taps
+        up_event:
+          name: Event Entity for Up
+          description: The Event Entity for Up taps*
           selector:
             entity:
               filter:
@@ -57,9 +57,9 @@ blueprint:
                   domain: event
                   device_class: button
               multiple: false
-        up_event:
-          name: Event Entity for Up
-          description: The Event Entity for Up taps*
+        config_event:
+          name: Event Entity for Config
+          description: The event entity for Config taps
           selector:
             entity:
               filter:
