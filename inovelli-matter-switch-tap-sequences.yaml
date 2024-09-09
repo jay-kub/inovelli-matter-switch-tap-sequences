@@ -10,12 +10,13 @@ blueprint:
   input:
     entity_inputs:
       name: Inovelli Switch Entities
+      description: 'Example: the Event Entity for Config can be found here: Settings > Devices & services > Matter > # Devices > *Select
+        your device* > Events > Up > Settings Icon > entity_id'
       icon: mdi:devices  
       input:
         entity_config:
-          name: <Device Name> Config
-          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
-            your device* > Events > Config > Settings Icon > entity_id
+          name: Event Entity for Config
+          description: "The event entity for Config taps"
           selector:
             entity:
               filter:
@@ -26,9 +27,8 @@ blueprint:
                 - button
               multiple: false
         entity_down:
-          name: <Device Name> Down
-          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
-            your device* > Events > Down > Settings Icon > entity_id
+          name: Event Entity for Down
+          description: The Event Entity for Down taps
           selector:
             entity:
               filter:
@@ -39,9 +39,8 @@ blueprint:
                 - button
               multiple: false
         entity_up:
-          name: <Device Name> Up
-          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
-            your device* > Events > Up > Settings Icon > entity_id
+          name: Event Entity for Up
+          description: The Event Entity for Up taps*
           selector:
             entity:
               filter:
@@ -52,8 +51,8 @@ blueprint:
                 - button
               multiple: false
         entity_light:
-          name: <Device Name> Light
-          description: Select the light entity for the Inovelli Switch
+          name: Light Entity
+          description: The light entity for the Inovelli Switch
           selector:
             entity:
               filter:
@@ -202,15 +201,10 @@ blueprint:
       name: Light Bindings
       icon: mdi:sync
       input:
-        light_binding:
-          name: Enable Light Binding
-          description: Sync the on/off state and brightness of the Inovelli Switch to a target light.
-          default: false
-          selector:
-            boolean: {}
         target_light:
           name: Target Light(s)
           description: Select the light entity that will be synced to the Inovelli Switch
+          default: []
           selector:
             entity:
               filter:
