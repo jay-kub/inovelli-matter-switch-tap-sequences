@@ -1,8 +1,30 @@
 blueprint:
   name: Inovelli Matter Switch Tap Sequences
-  description: "Create an automation to perform predefined actions when a button on
-    an Inovelli switch is clicked.\n\n Supported Models: \n\n- VTM31-SN\n- VTM35-SN\n\n
-    Version 0.2"
+  description: |
+    ## Inovelli Matter Switch Tap Sequences
+
+    ### This blueprint will create an automation to:
+
+      - Perform predefined actions when a button on an Inovelli switch is tapped or held
+      - Bind the Inovelli Switches Light Entity to Target Light(s)
+
+    Light bindings will sync both the on/off state and brightness of the Inovelli Switches Light Entity to other light entity(ies). When using bindings there will be some lag, thus it is recommended you increase your dimming speed. 
+    
+    ### The following settings are recommended to help make the transitions more fluid:
+
+      - Slow down the dimming speed on the Inovelli Switch to account for lag
+      - Transitions from on to off should be set to 0 for all devices
+      - Default on brightness should match for all devices
+      - Only use minimum brightness if your device does not already have a setting for it
+
+    Please note, when Minimum Brightness is > 1, the script will ensure the Target Light never falls below that value, with an adjusted linear scale 
+    between the minimum value and 100%. Because of this, the brightness value for each light may not always match.
+    
+    Supported Models:
+      - VTM31-SN
+      - VTM35-SN
+      
+    Version 0.2
   domain: automation
   author: jay-kub
   homeassistant:
