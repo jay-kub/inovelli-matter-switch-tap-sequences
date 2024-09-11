@@ -1,7 +1,7 @@
 blueprint:
-  name: Inovelli Matter Switch Tap Sequences
+  name: Inovelli Dev
   description: |
-    ## Inovelli Matter Switch Tap Sequences
+    ## Inovelli Dev
 
     ### This blueprint will create an automation to:
 
@@ -29,8 +29,8 @@ blueprint:
   author: jay-kub
   homeassistant:
     min_version: 2024.8.0
-  input:
-    entity_inputs:
+  input: #This section defines the inputs that appear visually for the user.
+    entity_inputs: # This section is for entities related to the switch itself.
       name: Inovelli Switch Entities
       description:
         "Example: the Event Entity for Config can be found here: Settings > Devices & services > Matter > # Devices > *Select
@@ -76,7 +76,7 @@ blueprint:
                 - domain: light
                   integration: matter
               multiple: false
-    up_inputs:
+    up_inputs: # This section lets the user define the actions when they press "up" n times.
       name: Up
       icon: mdi:arrow-up-thick
       input:
@@ -122,7 +122,7 @@ blueprint:
           default: []
           selector:
             action: {}
-    down_inputs:
+    down_inputs: # This section defines the actions when the user presses down n times
       name: Down
       icon: mdi:arrow-down-thick
       input:
@@ -168,7 +168,7 @@ blueprint:
           default: []
           selector:
             action: {}
-    config_inputs:
+    config_inputs: #This section defines the actions when the user presses config n times
       name: Config
       icon: mdi:button-pointer
       input:
@@ -214,7 +214,7 @@ blueprint:
           default: []
           selector:
             action: {}
-    binding_inputs:
+    binding_inputs: # This section defines entities and settings that are bound virtually to the switch
       name: Light Bindings
       icon: mdi:sync
       input:
@@ -246,60 +246,72 @@ blueprint:
   source_url: https://github.com/gravityrebel/inovelli-matter-switch-tap-sequences/blob/dev/inovelli-matter-switch-tap-sequences.yaml
 mode: queued
 max_exceeded: silent
-variables:
+# End Blueprint definition
+
+# Start Automation definition
+variables: # Set up variables to be used in templates.
   controlLight: !input switch_light
   reverseSync: !input reverse_sync
-trigger:
-  - platform: state
+
+trigger: # Defines the triggers the automation will use to run. Nominally the events from the switch.
+  - id: up
+    platform: state
     entity_id: !input up_event
     not_from:
       - unknown
       - unavailable
-    id: up
-  - platform: state
+
+  - id: down
+    platform: state
     entity_id: !input down_event
     not_from:
       - unknown
       - unavailable
-    id: down
-  - platform: state
+
+  - id: config
+    platform: state
     entity_id: !input config_event
     not_from:
       - unknown
       - unavailable
-    id: config
-  - platform: state
+
+  - id: turnOn
+    platform: state
     entity_id: !input switch_light
-    id: turnOn
     from: "off"
     to: "on"
-  - platform: state
+
+  - id: turnOff
+    platform: state
     entity_id: !input switch_light
-    id: turnOff
     from: "on"
     to: "off"
-  - platform: state
+
+  - id: reverseSyncOff
+    platform: state
     entity_id: !input default_light
-    id: reverseSyncOff
     from: "on"
     to: "off"
-  - platform: state
+
+  - id: reverseSyncOn
+    platform: state
     entity_id: !input default_light
-    id: reverseSyncOn
     from: "off"
     to: "on"
+    
   - platform: state
     entity_id: !input switch_light
     attribute: brightness
     id: turnOn
 condition: []
+
+# The automation itself. When triggered, this is the main script that will run.
 action:
   - choose:
-      - conditions:
+      - conditions: # When the up event is the trigger
           - condition: trigger
-            id:
-              - up
-        sequence:
+            id: up
+        sequence: # Check the state of the up event based on number of clicks.
           - choose:
               - conditions:
                   - condition: state
@@ -343,12 +355,12 @@ action:
                     attribute: event_type
                     state: long_release
                 sequence: !input upReleased
-      - conditions:
+      
+      - conditions: # When the down event is the trigger.
           - condition: trigger
-            id:
-              - down
+            id: down
         sequence:
-          - choose:
+          - choose: #Check the state of the down event based on number of clicks
               - conditions:
                   - condition: state
                     entity_id: !input down_event
@@ -391,12 +403,12 @@ action:
                     attribute: event_type
                     state: long_release
                 sequence: !input downReleased
-      - conditions:
+      
+      - conditions: # When the config button is the trigger.
           - condition: trigger
-            id:
-              - config
+            id: config
         sequence:
-          - choose:
+          - choose: # Check the state of the config event based on number of clicks.
               - conditions:
                   - condition: state
                     entity_id: !input config_event
@@ -439,10 +451,10 @@ action:
                     attribute: event_type
                     state: long_release
                 sequence: !input configReleased
+      
       - conditions:
           - condition: trigger
-            id:
-              - turnOff
+            id: turnOff
         sequence:
           - variables:
               controlLight: !input switch_light
@@ -451,6 +463,7 @@ action:
             data: {}
             target:
               entity_id: !input default_light
+      
       - conditions:
           - condition: trigger
             id:
@@ -462,8 +475,7 @@ action:
               - choose:
                   - conditions:
                       - condition: trigger
-                        id:
-                          - reverseSyncOff
+                        id: reverseSyncOff
                     sequence:
                       - action: light.turn_off
                         target:
@@ -471,17 +483,16 @@ action:
                         data: {}
                   - conditions:
                       - condition: trigger
-                        id:
-                          - reverseSyncOn
+                        id: reverseSyncOn
                     sequence:
                       - action: light.turn_on
                         target:
                           entity_id: !input switch_light
                         data: {}
+      
       - conditions:
           - condition: trigger
-            id:
-              - turnOn
+            id: turnOn
         sequence:
           - variables:
               controlLight: !input switch_light
