@@ -29,7 +29,7 @@ blueprint:
   author: jay-kub
   homeassistant:
     min_version: 2024.8.0
-  input: #This section defines the inputs that appear visually for the user.
+  input: # This section defines the inputs that appear visually for the user.
     entity_inputs: # This section is for entities related to the switch itself.
       name: Inovelli Switch Entities
       description:
@@ -80,43 +80,43 @@ blueprint:
       name: Up
       icon: mdi:arrow-up-thick
       input:
-        up1:
+        up1Action:
           name: Single
           description: When Up is pressed 1 time
           default: []
           selector:
             action: {}
-        up2:
+        up2Action:
           name: Double
           description: When Up is pressed 2 times
           default: []
           selector:
             action: {}
-        up3:
+        up3Action:
           name: Triple
           description: When Up is pressed 3 times
           default: []
           selector:
             action: {}
-        up4:
+        up4Action:
           name: Quadruple
           description: When Up is pressed 4 times
           default: []
           selector:
             action: {}
-        up5:
+        up5Action:
           name: Quintuple
           description: When Up is pressed 5 times
           default: []
           selector:
             action: {}
-        upHeld:
+        upHeldAction:
           name: Up Held
           description: When Up is held
           default: []
           selector:
             action: {}
-        upReleased:
+        upReleasedAction:
           name: Up Released
           description: When Up is released
           default: []
@@ -126,43 +126,43 @@ blueprint:
       name: Down
       icon: mdi:arrow-down-thick
       input:
-        down1:
+        down1Action:
           name: Single
           description: When Down is pressed 1 time
           default: []
           selector:
             action: {}
-        down2:
+        down2Action:
           name: Double
           description: When Down is pressed 2 times
           default: []
           selector:
             action: {}
-        down3:
+        down3Action:
           name: Triple
           description: When Down is pressed 3 times
           default: []
           selector:
             action: {}
-        down4:
+        down4Action:
           name: Quadruple
           description: When Down is pressed 4 times
           default: []
           selector:
             action: {}
-        down5:
+        down5Action:
           name: Quintuple
           description: When Down is pressed 5 times
           default: []
           selector:
             action: {}
-        downHeld:
+        downHeldAction:
           name: Down Held
           description: When Down is held
           default: []
           selector:
             action: {}
-        downReleased:
+        downReleasedAction:
           name: Down Released
           description: When Down is released
           default: []
@@ -172,43 +172,43 @@ blueprint:
       name: Config
       icon: mdi:button-pointer
       input:
-        config1:
+        config1Action:
           name: Single
           description: When Config is pressed 1 time
           default: []
           selector:
             action: {}
-        config2:
+        config2Action:
           name: Double
           description: When Config is pressed 2 times
           default: []
           selector:
             action: {}
-        config3:
+        config3Action:
           name: Triple
           description: When Config is pressed 3 times
           default: []
           selector:
             action: {}
-        config4:
+        config4Action:
           name: Quadruple
           description: When Config is pressed 4 times
           default: []
           selector:
             action: {}
-        config5:
+        config5Action:
           name: Quintuple
           description: When Config is pressed 5 times
           default: []
           selector:
             action: {}
-        configHeld:
+        configHeldAction:
           name: Config Held
           description: When Config is held
           default: []
           selector:
             action: {}
-        configReleased:
+        configReleasedAction:
           name: Config Released
           description: When Config is released
           default: []
@@ -237,8 +237,8 @@ blueprint:
               max: 100.0
               step: 1.0
               mode: slider
-        reverse_sync:
-          name: Reverse Sync
+        matchSwitchLightWithDefault:
+          name: Match Switch Light with Default
           description: If the target light is toggled on/off by an outside source, the Inovelli Switch will sync.
           default: false
           selector:
@@ -250,8 +250,8 @@ max_exceeded: silent
 
 # Start Automation definition
 variables: # Set up variables to be used in templates.
-  controlLight: !input switch_light
-  reverseSync: !input reverse_sync
+  switchLight: !input switch_light
+  shouldSyncDefaultLightToSwitch: !input matchSwitchLightWithDefault
 
 trigger: # Defines the triggers the automation will use to run. Nominally the events from the switch.
   - id: up
@@ -318,91 +318,91 @@ action:
                     entity_id: !input up_event
                     attribute: event_type
                     state: multi_press_1
-                sequence: !input up1
+                sequence: !input up1Action
               - conditions:
                   - condition: state
                     entity_id: !input up_event
                     attribute: event_type
                     state: multi_press_2
-                sequence: !input up2
+                sequence: !input up2Action
               - conditions:
                   - condition: state
                     entity_id: !input up_event
                     attribute: event_type
                     state: multi_press_3
-                sequence: !input up3
+                sequence: !input up3Action
               - conditions:
                   - condition: state
                     entity_id: !input up_event
                     attribute: event_type
                     state: multi_press_4
-                sequence: !input up4
+                sequence: !input up4Action
               - conditions:
                   - condition: state
                     entity_id: !input up_event
                     attribute: event_type
                     state: multi_press_5
-                sequence: !input up5
+                sequence: !input up5Action
               - conditions:
                   - condition: state
                     entity_id: !input up_event
                     attribute: event_type
                     state: long_press
-                sequence: !input upHeld
+                sequence: !input upHeldAction
               - conditions:
                   - condition: state
                     entity_id: !input up_event
                     attribute: event_type
                     state: long_release
-                sequence: !input upReleased
+                sequence: !input upReleasedAction
       
       - conditions: # When the down event is the trigger.
           - condition: trigger
             id: down
         sequence:
-          - choose: #Check the state of the down event based on number of clicks
+          - choose: # Check the state of the down event based on number of clicks
               - conditions:
                   - condition: state
                     entity_id: !input down_event
                     attribute: event_type
                     state: multi_press_1
-                sequence: !input down1
+                sequence: !input down1Action
               - conditions:
                   - condition: state
                     entity_id: !input down_event
                     attribute: event_type
                     state: multi_press_2
-                sequence: !input down2
+                sequence: !input down2Action
               - conditions:
                   - condition: state
                     entity_id: !input down_event
                     attribute: event_type
                     state: multi_press_3
-                sequence: !input down3
+                sequence: !input down3Action
               - conditions:
                   - condition: state
                     entity_id: !input down_event
                     attribute: event_type
                     state: multi_press_4
-                sequence: !input down4
+                sequence: !input down4Action
               - conditions:
                   - condition: state
                     entity_id: !input down_event
                     attribute: event_type
                     state: multi_press_5
-                sequence: !input down5
+                sequence: !input down5Action
               - conditions:
                   - condition: state
                     entity_id: !input down_event
                     attribute: event_type
                     state: long_press
-                sequence: !input downHeld
+                sequence: !input downHeldAction
               - conditions:
                   - condition: state
                     entity_id: !input down_event
                     attribute: event_type
                     state: long_release
-                sequence: !input downReleased
+                sequence: !input downReleasedAction
       
       - conditions: # When the config button is the trigger.
           - condition: trigger
@@ -414,50 +414,48 @@ action:
                     entity_id: !input config_event
                     attribute: event_type
                     state: multi_press_1
-                sequence: !input config1
+                sequence: !input config1Action
               - conditions:
                   - condition: state
                     entity_id: !input config_event
                     attribute: event_type
                     state: multi_press_2
-                sequence: !input config2
+                sequence: !input config2Action
               - conditions:
                   - condition: state
                     entity_id: !input config_event
                     attribute: event_type
                     state: multi_press_3
-                sequence: !input config3
+                sequence: !input config3Action
               - conditions:
                   - condition: state
                     entity_id: !input config_event
                     attribute: event_type
                     state: multi_press_4
-                sequence: !input config4
+                sequence: !input config4Action
               - conditions:
                   - condition: state
                     entity_id: !input config_event
                     attribute: event_type
                     state: multi_press_5
-                sequence: !input config5
+                sequence: !input config5Action
               - conditions:
                   - condition: state
                     entity_id: !input config_event
                     attribute: event_type
                     state: long_press
-                sequence: !input configHeld
+                sequence: !input configHeldAction
               - conditions:
                   - condition: state
                     entity_id: !input config_event
                     attribute: event_type
                     state: long_release
-                sequence: !input configReleased
+                sequence: !input configReleasedAction
       
       - conditions:
           - condition: trigger
             id: turnOff
         sequence:
-          - variables:
-              controlLight: !input switch_light
           - action: light.turn_off
             metadata: {}
             data: {}
@@ -470,7 +468,7 @@ action:
               - reverseSyncOff
               - reverseSyncOn
         sequence:
-          - if: "{{ reverseSync }}"
+          - if: "{{ shouldSyncDefaultLightToSwitch }}"
             then:
               - choose:
                   - conditions:
@@ -495,12 +493,7 @@ action:
             id: turnOn
         sequence:
           - variables:
-              controlLight: !input switch_light
-              controlLightBrightness:
-                "{{ (state_attr(controlLight, 'brightness') / 2.55)
-                }}
-
-                "
+              switchLightBrightness: "{{ (state_attr(switchLight, 'brightness') / 2.55)}}"
               minBrightness: !input min_brightness
               brightnessValue:
                 "{{ (((100 - minBrightness) / 100 ) * controlLightBrightness
