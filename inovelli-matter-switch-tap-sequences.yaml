@@ -219,7 +219,7 @@ blueprint:
       icon: mdi:sync
       input:
         target_light:
-          name: Target Light(s)
+          name: Target Light
           description: Select the light entity that will be synced to the Inovelli Switch
           default: []
           selector:
@@ -227,6 +227,12 @@ blueprint:
               filter:
                 - domain: light
               multiple: false
+        brightness_sync:
+          name: Brightness Sync
+          description: Sync the brightness from the Inovelli Switch to the Target Light
+          default: true
+          selector:
+            boolean: {}
         min_brightness:
           name: Minimum Brightness
           description: Set the minimum brightness percent for the target light.
@@ -239,7 +245,7 @@ blueprint:
               mode: slider
         reverse_sync:
           name: Reverse Sync
-          description: If the target light is toggled on/off by an outside source, the Inovelli Switch will sync.
+          description: If the Target Light is toggled on/off by an outside source, the Inovelli Switch will sync.
           default: false
           selector:
             boolean: {}
@@ -488,15 +494,25 @@ action:
           - turnOn
     sequence:
     - variables:
+        brightnessSync: !input brightness_sync
         controlLight: !input entity_light
         controlLightBrightness: |
           {{ (state_attr(controlLight, 'brightness') / 2.55) }}
         minBrightness: !input min_brightness
         brightnessValue: |
           {{ (((100 - minBrightness) / 100 ) * controlLightBrightness + minBrightness ) | round(0) }}
-    - action: light.turn_on
-      metadata: {}
-      data:
-        brightness_pct: '{{ brightnessValue }}'
-      target:
-        entity_id: !input target_light
+    - choose:
+      - conditions: '{{ brightnessSync }}'
+        sequence:
+        - action: light.turn_on
+          metadata: {}
+          data:
+            brightness_pct: '{{ brightnessValue }}'
+          target:
+            entity_id: !input target_light
+      - conditions:
+        sequence:
+        - action: light.turn_on
+          metadata: {}
+          target:
+            entity_id: !input target_light
