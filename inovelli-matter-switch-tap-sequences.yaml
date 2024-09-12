@@ -252,9 +252,7 @@ blueprint:
   source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/dev/inovelli-matter-switch-tap-sequences.yaml
 mode: queued
 max_exceeded: silent
-
 variables:
-  controlLight: !input entity_light
   reverseSync: !input reverse_sync
 
 trigger:
@@ -454,8 +452,6 @@ action:
         id:
           - turnOff
     sequence:
-    - variables:
-        controlLight: !input entity_light
     - action: light.turn_off
       metadata: {}
       data: {}
@@ -494,13 +490,13 @@ action:
           - turnOn
     sequence:
     - variables:
-        brightnessSync: !input brightness_sync
         controlLight: !input entity_light
         controlLightBrightness: |
           {{ (state_attr(controlLight, 'brightness') / 2.55) }}
         minBrightness: !input min_brightness
         brightnessValue: |
           {{ (((100 - minBrightness) / 100 ) * controlLightBrightness + minBrightness ) | round(0) }}
+        brightnessSync: !input brightness_sync
     - choose:
       - conditions: '{{ brightnessSync }}'
         sequence:
