@@ -6,21 +6,22 @@ blueprint:
     ### This blueprint will create an automation to:
 
       - Perform predefined actions when a button on an Inovelli switch is tapped or held
-      - Bind the Inovelli Switches Light Entity to Target Light(s)
+      - Bind the Inovelli Switches Light Entity to a Target Light
 
-    Light bindings will sync both the on/off state and brightness of the Inovelli Switches Light Entity to other light entity(ies). When using bindings there will be some lag, thus it is recommended you increase your dimming speed. 
+    ### Light Binding
 
-    ### The following settings are recommended to help make the transitions more fluid:
+    Light binding will sync the on/off state and brightness from the Inovelli Switch to a Target Light.
+
+    Adjust the device settings as follows to make transitions more fluid:
 
       - Slow down the dimming speed on the Inovelli Switch to account for lag
       - Transitions from on to off should be set to 0 for all devices
       - Default on brightness should match for all devices
-      - Only use minimum brightness if your device does not already have a setting for it
+      - If the target device has a setting for minimum brightness, then leave the blueprint minimum brightness at 1
 
-    Please note, when Minimum Brightness is > 1, the automation will ensure the Target Light never falls below that value, with an adjusted linear scale 
-    between the minimum value and 100%. Because of this, the brightness value for each light may not always match.
+    Please note, when Minimum Brightness is > 1, the automation will ensure the Target Light never falls below that value, with an adjusted linear scale between the minimum value and 100%. Because of this, the brightness value for each light may not always match.
 
-    Supported Models:
+    ### Supported Models:
       - VTM31-SN
       - VTM35-SN
 
@@ -220,7 +221,9 @@ blueprint:
       input:
         target_light:
           name: Target Light
-          description: Select the light entity that will be synced to the Inovelli Switch
+          description: |
+            Select the light entity that will be synced to the Inovelli Switch
+            Hint: to control multiple lights, create a light group
           default: []
           selector:
             entity:
