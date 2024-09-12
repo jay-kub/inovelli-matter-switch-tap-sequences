@@ -9,7 +9,7 @@ blueprint:
       - Bind the Inovelli Switches Light Entity to Target Light(s)
 
     Light bindings will sync both the on/off state and brightness of the Inovelli Switches Light Entity to other light entity(ies). When using bindings there will be some lag, thus it is recommended you increase your dimming speed. 
-    
+
     ### The following settings are recommended to help make the transitions more fluid:
 
       - Slow down the dimming speed on the Inovelli Switch to account for lag
@@ -19,11 +19,11 @@ blueprint:
 
     Please note, when Minimum Brightness is > 1, the automation will ensure the Target Light never falls below that value, with an adjusted linear scale 
     between the minimum value and 100%. Because of this, the brightness value for each light may not always match.
-    
+
     Supported Models:
       - VTM31-SN
       - VTM35-SN
-      
+
     Version 0.2
   domain: automation
   author: jay-kub
@@ -32,19 +32,20 @@ blueprint:
   input:
     entity_inputs:
       name: Inovelli Switch Entities
-      description: 'Example: the Event Entity for Config can be found here: Settings > Devices & services > Matter > # Devices > *Select
-        your device* > Events > Up > Settings Icon > entity_id'
+      description:
+        "Example: the Event Entity for Config can be found here: Settings > Devices & services > Matter > # Devices > *Select
+        your device* > Events > Up > Settings Icon > entity_id"
       icon: mdi:devices  
       input:
-        entity_config:
-          name: Event Entity for Config
-          description: "The event entity for Config taps"
+        entity_up:
+          name: Event Entity for Up
+          description: The Event Entity for Up taps
           selector:
             entity:
               filter:
-              - integration: matter
-                domain: event
-                device_class: button
+                - integration: matter
+                  domain: event
+                  device_class: button
               multiple: false
         entity_down:
           name: Event Entity for Down
@@ -52,19 +53,19 @@ blueprint:
           selector:
             entity:
               filter:
-              - integration: matter
-                domain: event
-                device_class: button
+                - integration: matter
+                  domain: event
+                  device_class: button
               multiple: false
-        entity_up:
-          name: Event Entity for Up
-          description: The Event Entity for Up taps*
+        entity_config:
+          name: Event Entity for Config
+          description: The Event Entity for Config taps
           selector:
             entity:
               filter:
-              - integration: matter
-                domain: event
-                device_class: button
+                - integration: matter
+                  domain: event
+                  device_class: button
               multiple: false
         entity_light:
           name: Light Entity
@@ -77,7 +78,7 @@ blueprint:
               multiple: false
     up_inputs:
       name: Up
-      icon: mdi:cog
+      icon: mdi:arrow-up-thick
       input:
         up1:
           name: Single
@@ -123,7 +124,7 @@ blueprint:
             action: {}
     down_inputs:
       name: Down
-      icon: mdi:cog
+      icon: mdi:arrow-down-thick
       input:
         down1:
           name: Single
@@ -169,7 +170,7 @@ blueprint:
             action: {}
     config_inputs:
       name: Config
-      icon: mdi:cog
+      icon: mdi:button-pointer
       input:
         config1:
           name: Single
@@ -224,29 +225,32 @@ blueprint:
           selector:
             entity:
               filter:
-              - domain:
-                - light
-              multiple: true
+                - domain: light
+              multiple: false
         min_brightness:
           name: Minimum Brightness
-          description: Set the minimum brightness for the target light(s), as a percentage (1-100).
+          description: Set the minimum brightness percent for the target light.
           default: 1
           selector:
             number:
-              min: 1
-              max: 100
+              min: 1.0
+              max: 100.0
+              step: 1.0
+              mode: slider
         reverse_sync:
           name: Reverse Sync
           description: If the target light is toggled on/off by an outside source, the Inovelli Switch will sync.
           default: false
           selector:
             boolean: {}
-  source_url: https://github.com/gravityrebel/inovelli-matter-switch-tap-sequences/blob/improved-filtering/inovelli-matter-switch-tap-sequences.yaml
+  source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/dev/inovelli-matter-switch-tap-sequences.yaml
 mode: queued
 max_exceeded: silent
+
 variables:
   controlLight: !input entity_light
   reverseSync: !input reverse_sync
+
 trigger:
   - platform: state
     entity_id: !input entity_up
@@ -290,7 +294,9 @@ trigger:
     entity_id: !input entity_light
     attribute: brightness
     id: turnOn
+
 condition: []
+
 action:
 - choose:
   - conditions:
