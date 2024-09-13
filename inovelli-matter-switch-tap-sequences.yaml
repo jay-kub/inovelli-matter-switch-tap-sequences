@@ -1,7 +1,7 @@
 blueprint:
-  name: Inovelli Dev
+  name: Inovelli Matter Switch Tap Sequences
   description: |
-    ## Inovelli Dev
+    ## Inovelli Matter Switch Tap Sequences
 
     ### This blueprint will create an automation to:
 
@@ -30,8 +30,8 @@ blueprint:
   author: jay-kub
   homeassistant:
     min_version: 2024.8.0
-  input: # This section defines the inputs that appear visually for the user.
-    entity_inputs: # This section is for entities related to the switch itself.
+  input:
+    entity_inputs:
       name: Inovelli Switch Entities
       description:
         "Example: the Event Entity for Config can be found here: Settings > Devices & services > Matter > # Devices > *Select
@@ -48,7 +48,7 @@ blueprint:
                   domain: event
                   device_class: button
               multiple: false
-        down_event:
+        entity_down:
           name: Event Entity for Down
           description: The Event Entity for Down taps
           selector:
@@ -68,154 +68,154 @@ blueprint:
                   domain: event
                   device_class: button
               multiple: false
-        switch_light:
+        entity_light:
           name: Light Entity
           description: The light entity for the Inovelli Switch
           selector:
             entity:
               filter:
-                - domain: light
-                  integration: matter
+              - domain: light
+                integration: matter
               multiple: false
-    up_inputs: # This section lets the user define the actions when they press "up" n times.
+    up_inputs:
       name: Up
       icon: mdi:arrow-up-thick
       input:
-        up1Action:
+        up1:
           name: Single
           description: When Up is pressed 1 time
           default: []
           selector:
             action: {}
-        up2Action:
+        up2:
           name: Double
           description: When Up is pressed 2 times
           default: []
           selector:
             action: {}
-        up3Action:
+        up3:
           name: Triple
           description: When Up is pressed 3 times
           default: []
           selector:
             action: {}
-        up4Action:
+        up4:
           name: Quadruple
           description: When Up is pressed 4 times
           default: []
           selector:
             action: {}
-        up5Action:
+        up5:
           name: Quintuple
           description: When Up is pressed 5 times
           default: []
           selector:
             action: {}
-        upHeldAction:
+        upHeld:
           name: Up Held
           description: When Up is held
           default: []
           selector:
             action: {}
-        upReleasedAction:
+        upReleased:
           name: Up Released
           description: When Up is released
           default: []
           selector:
             action: {}
-    down_inputs: # This section defines the actions when the user presses down n times
+    down_inputs:
       name: Down
       icon: mdi:arrow-down-thick
       input:
-        down1Action:
+        down1:
           name: Single
           description: When Down is pressed 1 time
           default: []
           selector:
             action: {}
-        down2Action:
+        down2:
           name: Double
           description: When Down is pressed 2 times
           default: []
           selector:
             action: {}
-        down3Action:
+        down3:
           name: Triple
           description: When Down is pressed 3 times
           default: []
           selector:
             action: {}
-        down4Action:
+        down4:
           name: Quadruple
           description: When Down is pressed 4 times
           default: []
           selector:
             action: {}
-        down5Action:
+        down5:
           name: Quintuple
           description: When Down is pressed 5 times
           default: []
           selector:
             action: {}
-        downHeldAction:
+        downHeld:
           name: Down Held
           description: When Down is held
           default: []
           selector:
             action: {}
-        downReleasedAction:
+        downReleased:
           name: Down Released
           description: When Down is released
           default: []
           selector:
             action: {}
-    config_inputs: #This section defines the actions when the user presses config n times
+    config_inputs:
       name: Config
       icon: mdi:button-pointer
       input:
-        config1Action:
+        config1:
           name: Single
           description: When Config is pressed 1 time
           default: []
           selector:
             action: {}
-        config2Action:
+        config2:
           name: Double
           description: When Config is pressed 2 times
           default: []
           selector:
             action: {}
-        config3Action:
+        config3:
           name: Triple
           description: When Config is pressed 3 times
           default: []
           selector:
             action: {}
-        config4Action:
+        config4:
           name: Quadruple
           description: When Config is pressed 4 times
           default: []
           selector:
             action: {}
-        config5Action:
+        config5:
           name: Quintuple
           description: When Config is pressed 5 times
           default: []
           selector:
             action: {}
-        configHeldAction:
+        configHeld:
           name: Config Held
           description: When Config is held
           default: []
           selector:
             action: {}
-        configReleasedAction:
+        configReleased:
           name: Config Released
           description: When Config is released
           default: []
           selector:
             action: {}
-    binding_inputs: # This section defines entities and settings that are bound virtually to the switch
+    binding_inputs:
       name: Light Bindings
       icon: mdi:sync
       input:
@@ -262,55 +262,48 @@ trigger:
   - platform: state
     entity_id: !input entity_up
     not_from:
-      - unknown
-      - unavailable
-
-  - id: down
-    platform: state
-    entity_id: !input down_event
-    not_from:
-      - unknown
-      - unavailable
-
-  - id: config
-    platform: state
-    entity_id: !input config_event
-    not_from:
-      - unknown
-      - unavailable
-
-  - id: turnOn
-    platform: state
-    entity_id: !input switch_light
-    from: "off"
-    to: "on"
-
-  - id: turnOff
-    platform: state
-    entity_id: !input switch_light
-    from: "on"
-    to: "off"
-
-  - id: reverseSyncOff
-    platform: state
-    entity_id: !input default_light
-    from: "on"
-    to: "off"
-
-  - id: reverseSyncOn
-    platform: state
-    entity_id: !input default_light
-    from: "off"
-    to: "on"
-    
+    - unknown
+    - unavailable
+    id: up
   - platform: state
-    entity_id: !input switch_light
+    entity_id: !input entity_down
+    not_from:
+    - unknown
+    - unavailable
+    id: down
+  - platform: state
+    entity_id: !input entity_config
+    not_from:
+    - unknown
+    - unavailable
+    id: config
+  - platform: state
+    entity_id: !input entity_light
+    id: turnOn
+    from: "off"
+    to: "on"
+  - platform: state
+    entity_id: !input entity_light
+    id: turnOff
+    from: "on"
+    to: "off"
+  - platform: state
+    entity_id: !input target_light
+    id: reverseSyncOff
+    from: "on"
+    to: "off"
+  - platform: state
+    entity_id: !input target_light
+    id: reverseSyncOn
+    from: "off"
+    to: "on"
+  - platform: state
+    entity_id: !input entity_light
     attribute: brightness
     id: turnOn
 
 condition: []
 
-# The automation itself. When triggered, this is the main script that will run.
 action:
 - choose:
   - conditions:
