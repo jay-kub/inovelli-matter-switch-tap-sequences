@@ -30,8 +30,9 @@ blueprint:
   author: jay-kub
   homeassistant:
     min_version: 2024.8.0
-  input:
-    entity_inputs:
+
+  input: # This section defines the inputs that appear visually for the user.
+    entity_inputs: # This section is for entities related to the switch itself.
       name: Inovelli Switch Entities
       description:
         "Example: the Event Entity for Config can be found here: Settings > Devices & services > Matter > # Devices > *Select
@@ -77,7 +78,7 @@ blueprint:
               - domain: light
                 integration: matter
               multiple: false
-    up_inputs:
+    up_inputs: # This section lets the user define the actions when they press "up" n times.
       name: Up
       icon: mdi:arrow-up-thick
       input:
@@ -123,7 +124,7 @@ blueprint:
           default: []
           selector:
             action: {}
-    down_inputs:
+    down_inputs: # This section defines the actions when the user presses down n times
       name: Down
       icon: mdi:arrow-down-thick
       input:
@@ -169,7 +170,7 @@ blueprint:
           default: []
           selector:
             action: {}
-    config_inputs:
+    config_inputs:  # This section defines the actions when the user presses config n times
       name: Config
       icon: mdi:button-pointer
       input:
@@ -215,7 +216,7 @@ blueprint:
           default: []
           selector:
             action: {}
-    binding_inputs:
+    binding_inputs: # This section defines entities and settings that are bound virtually to the switch
       name: Light Bindings
       icon: mdi:sync
       input:
@@ -253,12 +254,16 @@ blueprint:
           selector:
             boolean: {}
   source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/dev/inovelli-matter-switch-tap-sequences.yaml
+# End Blueprint definition
+
+# Start Automation definition
 mode: queued
 max_exceeded: silent
-variables:
+
+variables:  # Set up variables to be used in templates.
   reverseSync: !input reverse_sync
 
-trigger:
+trigger: # Defines the triggers the automation will use to run. Nominally the events from the switch.
   - platform: state
     entity_id: !input entity_up
     not_from:
@@ -304,13 +309,12 @@ trigger:
 
 condition: []
 
-action:
+action: # The automation itself. When triggered, this is the main script that will run.
 - choose:
-  - conditions:
+  - conditions: # When the up event is the trigger
     - condition: trigger
-      id:
-      - up
-    sequence:
+      id: up
+    sequence: # Check the state of the up event based on number of clicks.
     - choose:
       - conditions:
         - condition: state
@@ -354,11 +358,11 @@ action:
           attribute: event_type
           state: long_release
         sequence: !input upReleased
-  - conditions:
+
+  - conditions: # When the down button is the trigger.
     - condition: trigger
-      id:
-      - down
-    sequence:
+      id: down
+    sequence: # Check the state of the down event based on number of clicks.
     - choose:
       - conditions:
         - condition: state
@@ -402,11 +406,11 @@ action:
           attribute: event_type
           state: long_release
         sequence: !input downReleased
-  - conditions:
+
+  - conditions: # When the config button is the trigger.
     - condition: trigger
-      id:
-      - config
-    sequence:
+      id: config
+    sequence: # Check the state of the config event based on number of clicks.
     - choose:
       - conditions:
         - condition: state
