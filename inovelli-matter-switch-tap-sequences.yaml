@@ -256,7 +256,7 @@ blueprint:
 mode: queued
 max_exceeded: silent
 variables:
-  reverseSync: !input reverse_sync
+  reverseSyncEnabled: !input reverse_sync
 
 trigger:
   - platform: state
@@ -289,12 +289,12 @@ trigger:
     to: "off"
   - platform: state
     entity_id: !input target_light
-    id: reverseSyncOff
+    id: reverseSyncTurnOff
     from: "on"
     to: "off"
   - platform: state
     entity_id: !input target_light
-    id: reverseSyncOn
+    id: reverseSyncTurnOn
     from: "off"
     to: "on"
   - platform: state
@@ -463,16 +463,16 @@ action:
   - conditions:
       - condition: trigger
         id:
-          - reverseSyncOff
-          - reverseSyncOn
+          - reverseSyncTurnOff
+          - reverseSyncTurnOn
     sequence:
-      - if: '{{ reverseSync }}'
+      - if: '{{ reverseSyncEnabled }}'
         then:
           - choose:
               - conditions:
                   - condition: trigger
                     id:
-                      - reverseSyncOff
+                      - reverseSyncTurnOff
                 sequence:
                 - action: light.turn_off
                   target:
@@ -481,7 +481,7 @@ action:
               - conditions:
                   - condition: trigger
                     id:
-                      - reverseSyncOn
+                      - reverseSyncTurnOn
                 sequence:
                 - action: light.turn_on
                   target:
@@ -493,20 +493,20 @@ action:
           - turnOn
     sequence:
     - variables:
-        controlLight: !input entity_light
-        controlLightBrightness: |
-          {{ (state_attr(controlLight, 'brightness') / 2.55) }}
+        inovelliLight: !input entity_light
+        inovelliLightBrightness: |
+          {{ (state_attr(inovelliLight, 'brightness') / 2.55) }}
         minBrightness: !input min_brightness
-        brightnessValue: |
-          {{ (((100 - minBrightness) / 100 ) * controlLightBrightness + minBrightness ) | round(0) }}
-        brightnessSync: !input brightness_sync
+        targetBrightnessPct: |
+          {{ (((100 - minBrightness) / 100 ) * inovelliLightBrightness + minBrightness ) | round(0) }}
+        brightnessSyncEnabled: !input brightness_sync
     - choose:
-      - conditions: '{{ brightnessSync }}'
+      - conditions: '{{ brightnessSyncEnabled }}'
         sequence:
         - action: light.turn_on
           metadata: {}
           data:
-            brightness_pct: '{{ brightnessValue }}'
+            brightness_pct: '{{ targetBrightnessPct }}'
           target:
             entity_id: !input target_light
       - conditions:
