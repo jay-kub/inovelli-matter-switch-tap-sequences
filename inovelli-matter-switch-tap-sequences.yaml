@@ -71,6 +71,7 @@ blueprint:
         entity_light:
           name: Light Entity
           description: The light entity for the Inovelli Switch
+          default: []
           selector:
             entity:
               filter:
@@ -257,6 +258,7 @@ mode: queued
 max_exceeded: silent
 variables:
   reverseSyncEnabled: !input reverse_sync
+  inovelliLight: !input entity_light
 
 trigger:
   - platform: state
@@ -293,6 +295,7 @@ trigger:
     from: "off"
     to: "on"
   - platform: state
+    enabled: '{{ inovelliLight is not none }}'
     entity_id: !input entity_light
     attribute: brightness
     id: turnOn
@@ -491,7 +494,6 @@ action:
         state: "on" 
     sequence:
     - variables:
-        inovelliLight: !input entity_light
         inovelliLightBrightness: |
           {{ (state_attr(inovelliLight, 'brightness') / 2.55) }}
         minBrightness: !input min_brightness
