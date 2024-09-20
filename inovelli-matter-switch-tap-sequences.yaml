@@ -69,7 +69,7 @@ blueprint:
                   device_class: button
               multiple: false
         entity_light:
-          name: Light Entity
+          name: Light Entity (Optional)
           description: The light entity for the Inovelli Switch
           default: []
           selector:
