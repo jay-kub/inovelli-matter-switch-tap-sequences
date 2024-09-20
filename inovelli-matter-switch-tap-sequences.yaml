@@ -279,11 +279,6 @@ trigger:
     id: config
   - platform: state
     entity_id: !input entity_light
-    id: turnOn
-    from: "off"
-    to: "on"
-  - platform: state
-    entity_id: !input entity_light
     id: turnOff
     from: "on"
     to: "off"
@@ -491,6 +486,9 @@ action:
       - condition: trigger
         id:
           - turnOn
+      - condition: state
+        entity_id: !input entity_light
+        state: "on" 
     sequence:
     - variables:
         inovelliLight: !input entity_light
