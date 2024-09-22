@@ -16,15 +16,20 @@ blueprint:
 
       - Slow down the dimming speed on the Inovelli Switch to account for lag
       - Transition speed should be set to 0 for all devices
-      - Default on brightness should match for all devices
+      - Default brightness when turned on should match for all devices
       - If the target light already has a device setting for minimum brightness, then leave the blueprint minimum brightness at 1
 
-    ### Supported Models:
+    ### Supported Models
       - VTM31-SN (White Dimmer Switch)
       - VTM35-SN (White Fan Switch)
       - VTM36 (White Fan/Light Canopy Module)
 
     Version 0.2
+
+    ### Support
+
+    Go to https://github.com/jay-kub/inovelli-matter-switch-tap-sequences to report issues or request new features.
+
   domain: automation
   author: jay-kub
   homeassistant:
@@ -216,7 +221,7 @@ blueprint:
           selector:
             action: {}
     binding_inputs:
-      name: Light Bindings
+      name: Light Binding
       icon: mdi:sync
       input:
         target_light:
