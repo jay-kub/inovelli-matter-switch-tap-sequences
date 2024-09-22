@@ -1,5 +1,5 @@
-# Inovelli Matter Switch Tap Sequences
-[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fjay-kub%2Finovelli-matter-switch-tap-sequences%2Fblob%2Fmain%2Finovelli-matter-switch-tap-sequences.yaml)
+# Inovelli Matter Switch Tap Sequences (Dev)
+[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fjay-kub%2Finovelli-matter-switch-tap-sequences%2Fblob%2Fdev%2Finovelli-matter-switch-tap-sequences.yaml)
 ### This blueprint will create an automation to:
 - Perform predefined actions when a button on an Inovelli switch is tapped or held
 - Bind the Inovelli Switches Light Entity to a Target Light
