@@ -1,59 +1,90 @@
 blueprint:
   name: Inovelli Matter Switch Tap Sequences
-  description: "Create an automation to perform predefined actions when a button on
-    an Inovelli switch is clicked.\n\n Supported Models: \n\n- VTM31-SN\n- VTM35-SN\n\n
-    Version 0.1"
+  description: |
+    ## Inovelli Matter Switch Tap Sequences
+
+    ### This blueprint will create an automation to:
+
+      - Perform predefined actions when a button on an Inovelli switch is tapped or held
+      - Bind the Inovelli Switches Light Entity to a Target Light
+
+    ### Light Binding
+
+    Light binding will sync the on/off state and brightness from the Inovelli Switch to a Target Light.
+
+    Adjust the device settings as follows to make transitions more fluid:
+
+      - Slow down the dimming speed on the Inovelli Switch to account for lag
+      - Transition speed should be set to 0 for all devices
+      - Default brightness when turned on should match for all devices
+      - If the target light already has a device setting for minimum brightness, then leave the blueprint minimum brightness at 1
+
+    ### Supported Models
+      - VTM31-SN (White Dimmer Switch)
+      - VTM35-SN (White Fan Switch)
+      - VTM36 (White Fan/Light Canopy Module)
+
+    Version 0.2
+
+    ### Support
+
+    Go to https://github.com/jay-kub/inovelli-matter-switch-tap-sequences to report issues or request new features.
+
   domain: automation
   author: jay-kub
   homeassistant:
     min_version: 2024.8.0
   input:
     entity_inputs:
-      name: Entities
+      name: Inovelli Switch Entities
+      description:
+        "Example: the Event Entity for Up can be found here: Settings > Devices & services > Matter > # Devices > *Select
+        your device* > Events > Up > Settings Icon > entity_id"
       icon: mdi:devices  
       input:
-        entity_config:
-          name: <Device Name> Config
-          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
-            your device* > Events > Config > Settings Icon > entity_id
+        entity_up:
+          name: Event Entity for Up
+          description: The Event Entity for Up taps
           selector:
             entity:
               filter:
-              - integration: matter
-                domain:
-                - event
-                device_class:
-                - button
+                - integration: matter
+                  domain: event
+                  device_class: button
               multiple: false
         entity_down:
-          name: <Device Name> Down
-          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
-            your device* > Events > Down > Settings Icon > entity_id
+          name: Event Entity for Down
+          description: The Event Entity for Down taps
           selector:
             entity:
               filter:
-              - integration: matter
-                domain:
-                - event
-                device_class:
-                - button
+                - integration: matter
+                  domain: event
+                  device_class: button
               multiple: false
-        entity_up:
-          name: <Device Name> Up
-          description: Go to Settings > Devices & services > Matter > \# Devices > *Select
-            your device* > Events > Up > Settings Icon > entity_id
+        entity_config:
+          name: Event Entity for Config
+          description: The Event Entity for Config taps
           selector:
             entity:
               filter:
-              - integration: matter
-                domain:
-                - event
-                device_class:
-                - button
+                - integration: matter
+                  domain: event
+                  device_class: button
+              multiple: false
+        entity_light:
+          name: Light Entity (Optional)
+          description: The light entity for the Inovelli Switch
+          default: []
+          selector:
+            entity:
+              filter:
+              - domain: light
+                integration: matter
               multiple: false
     up_inputs:
       name: Up
-      icon: mdi:cog
+      icon: mdi:arrow-up-thick
       input:
         up1:
           name: Single
@@ -99,7 +130,7 @@ blueprint:
             action: {}
     down_inputs:
       name: Down
-      icon: mdi:cog
+      icon: mdi:arrow-down-thick
       input:
         down1:
           name: Single
@@ -145,7 +176,7 @@ blueprint:
             action: {}
     config_inputs:
       name: Config
-      icon: mdi:cog
+      icon: mdi:button-pointer
       input:
         config1:
           name: Single
@@ -189,29 +220,92 @@ blueprint:
           default: []
           selector:
             action: {}
-  source_url: https://github.com/gravityrebel/inovelli-matter-switch-tap-sequences/blob/improved-filtering/inovelli-matter-switch-tap-sequences.yaml
+    binding_inputs:
+      name: Light Binding
+      icon: mdi:sync
+      input:
+        target_light:
+          name: Target Light
+          description: |
+            Select the light entity that will be synced to the Inovelli Switch
+            Hint: to control multiple lights, create a light group
+          default: []
+          selector:
+            entity:
+              filter:
+                - domain: light
+              multiple: false
+        brightness_sync:
+          name: Brightness Sync
+          description: Sync the brightness from the Inovelli Switch to the Target Light
+          default: true
+          selector:
+            boolean: {}
+        min_brightness:
+          name: Minimum Brightness
+          description: Set the minimum brightness percent for the target light.
+          default: 1
+          selector:
+            number:
+              min: 1.0
+              max: 100.0
+              step: 1.0
+              mode: slider
+        reverse_sync:
+          name: Reverse Sync
+          description: If the Target Light is toggled on/off by an outside source, the Inovelli Switch will sync.
+          default: false
+          selector:
+            boolean: {}
+  source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/main/inovelli-matter-switch-tap-sequences.yaml
 mode: queued
 max_exceeded: silent
+variables:
+  reverseSyncEnabled: !input reverse_sync
+  inovelliLight: !input entity_light
+
 trigger:
-- platform: state
-  entity_id: !input entity_up
-  not_from:
-  - unknown
-  - unavailable
-  id: up
-- platform: state
-  entity_id: !input entity_down
-  not_from:
-  - unknown
-  - unavailable
-  id: down
-- platform: state
-  entity_id: !input entity_config
-  not_from:
-  - unknown
-  - unavailable
-  id: config
+  - platform: state
+    entity_id: !input entity_up
+    not_from:
+    - unknown
+    - unavailable
+    id: up
+  - platform: state
+    entity_id: !input entity_down
+    not_from:
+    - unknown
+    - unavailable
+    id: down
+  - platform: state
+    entity_id: !input entity_config
+    not_from:
+    - unknown
+    - unavailable
+    id: config
+  - platform: state
+    entity_id: !input entity_light
+    id: turnOff
+    from: "on"
+    to: "off"
+  - platform: state
+    entity_id: !input target_light
+    id: reverseSyncTurnOff
+    from: "on"
+    to: "off"
+  - platform: state
+    entity_id: !input target_light
+    id: reverseSyncTurnOn
+    from: "off"
+    to: "on"
+  - platform: state
+    enabled: '{{ inovelliLight is not none }}'
+    entity_id: !input entity_light
+    attribute: brightness
+    id: turnOn
+
 condition: []
+
 action:
 - choose:
   - conditions:
@@ -358,3 +452,70 @@ action:
           attribute: event_type
           state: long_release
         sequence: !input configReleased
+  - conditions:
+      - condition: trigger
+        id:
+          - turnOff
+    sequence:
+    - action: light.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: !input target_light
+  - conditions:
+      - condition: trigger
+        id:
+          - reverseSyncTurnOff
+          - reverseSyncTurnOn
+    sequence:
+      - if: '{{ reverseSyncEnabled }}'
+        then:
+          - choose:
+              - conditions:
+                  - condition: trigger
+                    id:
+                      - reverseSyncTurnOff
+                sequence:
+                - action: light.turn_off
+                  target:
+                    entity_id: !input entity_light
+                  data: {}
+              - conditions:
+                  - condition: trigger
+                    id:
+                      - reverseSyncTurnOn
+                sequence:
+                - action: light.turn_on
+                  target:
+                    entity_id: !input entity_light
+                  data: {}
+  - conditions:
+      - condition: trigger
+        id:
+          - turnOn
+      - condition: state
+        entity_id: !input entity_light
+        state: "on" 
+    sequence:
+    - variables:
+        inovelliLightBrightness: |
+          {{ (state_attr(inovelliLight, 'brightness') / 2.55) }}
+        minBrightness: !input min_brightness
+        targetBrightnessPct: |
+          {{ (((100 - minBrightness) / 100 ) * inovelliLightBrightness + minBrightness ) | round(0) }}
+        brightnessSyncEnabled: !input brightness_sync
+    - choose:
+      - conditions: '{{ brightnessSyncEnabled }}'
+        sequence:
+        - action: light.turn_on
+          metadata: {}
+          data:
+            brightness_pct: '{{ targetBrightnessPct }}'
+          target:
+            entity_id: !input target_light
+      - conditions:
+        sequence:
+        - action: light.turn_on
+          metadata: {}
+          target:
+            entity_id: !input target_light
