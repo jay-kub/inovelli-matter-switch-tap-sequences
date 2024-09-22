@@ -1,5 +1,5 @@
 blueprint:
-  name: Inovelli Matter Switch Tap Sequences
+  name: Inovelli Matter Switch Tap Sequences (Dev)
   description: |
     ## Inovelli Matter Switch Tap Sequences
 
@@ -15,11 +15,9 @@ blueprint:
     Adjust the device settings as follows to make transitions more fluid:
 
       - Slow down the dimming speed on the Inovelli Switch to account for lag
-      - Transitions from on to off should be set to 0 for all devices
+      - Transition speed should be set to 0 for all devices
       - Default on brightness should match for all devices
-      - If the target device has a setting for minimum brightness, then leave the blueprint minimum brightness at 1
-
-    Please note, when Minimum Brightness is > 1, the automation will ensure the Target Light never falls below that value, with an adjusted linear scale between the minimum value and 100%. Because of this, the brightness value for each light may not always match.
+      - If the target light already has a device setting for minimum brightness, then leave the blueprint minimum brightness at 1
 
     ### Supported Models:
       - VTM31-SN (White Dimmer Switch)
@@ -35,7 +33,7 @@ blueprint:
     entity_inputs:
       name: Inovelli Switch Entities
       description:
-        "Example: the Event Entity for Config can be found here: Settings > Devices & services > Matter > # Devices > *Select
+        "Example: the Event Entity for Up can be found here: Settings > Devices & services > Matter > # Devices > *Select
         your device* > Events > Up > Settings Icon > entity_id"
       icon: mdi:devices  
       input:
