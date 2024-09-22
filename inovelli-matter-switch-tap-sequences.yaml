@@ -22,8 +22,9 @@ blueprint:
     Please note, when Minimum Brightness is > 1, the automation will ensure the Target Light never falls below that value, with an adjusted linear scale between the minimum value and 100%. Because of this, the brightness value for each light may not always match.
 
     ### Supported Models:
-      - VTM31-SN
-      - VTM35-SN
+      - VTM31-SN (White Dimmer Switch)
+      - VTM35-SN (White Fan Switch)
+      - VTM36 (White Fan/Light Canopy Module)
 
     Version 0.2
   domain: automation
