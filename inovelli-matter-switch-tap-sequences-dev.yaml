@@ -252,7 +252,7 @@ blueprint:
           default: false
           selector:
             boolean: {}
-  source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/dev/inovelli-matter-switch-tap-sequences.yaml
+  source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/dev/inovelli-matter-switch-tap-sequences-dev.yaml
 mode: queued
 max_exceeded: silent
 variables:
