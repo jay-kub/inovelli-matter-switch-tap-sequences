@@ -35,7 +35,7 @@ blueprint:
   homeassistant:
     min_version: 2024.8.0
   input:
-    entity_inputs:
+    inovelli_events:
       name: Inovelli Switch Entities
       description:
         "Example: the Event Entity for Up can be found here: Settings > Devices & services > Matter > # Devices > *Select
@@ -72,8 +72,13 @@ blueprint:
                   domain: event
                   device_class: button
               multiple: false
+    binding_inputs:
+      name: Light Binding
+      icon: mdi:sync
+      collapsed: true
+      input:
         entity_light:
-          name: Light Entity (Optional)
+          name: Inovelli Switch Light (Optional)
           description: The light entity for the Inovelli Switch
           default: []
           selector:
@@ -82,9 +87,43 @@ blueprint:
               - domain: light
                 integration: matter
               multiple: false
+        target_light:
+          name: Target Light (Optional)
+          description: |
+            Select the light entity that will be synced to the Inovelli Switch
+            Hint: to control multiple lights, create a light group
+          default: []
+          selector:
+            entity:
+              filter:
+                - domain: light
+              multiple: false
+        brightness_sync:
+          name: Brightness Sync
+          description: Sync the brightness from the Inovelli Switch to the Target Light
+          default: true
+          selector:
+            boolean: {}
+        reverse_sync:
+          name: Reverse Sync
+          description: If the Target Light is toggled on/off by an outside source, the Inovelli Switch will sync
+          default: false
+          selector:
+            boolean: {}
+        min_brightness:
+          name: Minimum Brightness
+          description: Set the minimum brightness percent for the Target Light
+          default: 1
+          selector:
+            number:
+              min: 1.0
+              max: 100.0
+              step: 1.0
+              mode: slider
     up_inputs:
       name: Up
       icon: mdi:arrow-up-thick
+      collapsed: true
       input:
         up1:
           name: Single
@@ -117,13 +156,13 @@ blueprint:
           selector:
             action: {}
         upHeld:
-          name: Up Held
+          name: Held
           description: When Up is held
           default: []
           selector:
             action: {}
         upReleased:
-          name: Up Released
+          name: Released
           description: When Up is released
           default: []
           selector:
@@ -131,6 +170,7 @@ blueprint:
     down_inputs:
       name: Down
       icon: mdi:arrow-down-thick
+      collapsed: true
       input:
         down1:
           name: Single
@@ -163,13 +203,13 @@ blueprint:
           selector:
             action: {}
         downHeld:
-          name: Down Held
+          name: Held
           description: When Down is held
           default: []
           selector:
             action: {}
         downReleased:
-          name: Down Released
+          name: Released
           description: When Down is released
           default: []
           selector:
@@ -177,6 +217,7 @@ blueprint:
     config_inputs:
       name: Config
       icon: mdi:button-pointer
+      collapsed: true
       input:
         config1:
           name: Single
@@ -209,54 +250,17 @@ blueprint:
           selector:
             action: {}
         configHeld:
-          name: Config Held
+          name: Held
           description: When Config is held
           default: []
           selector:
             action: {}
         configReleased:
-          name: Config Released
+          name: Released
           description: When Config is released
           default: []
           selector:
             action: {}
-    binding_inputs:
-      name: Light Binding
-      icon: mdi:sync
-      input:
-        target_light:
-          name: Target Light
-          description: |
-            Select the light entity that will be synced to the Inovelli Switch
-            Hint: to control multiple lights, create a light group
-          default: []
-          selector:
-            entity:
-              filter:
-                - domain: light
-              multiple: false
-        brightness_sync:
-          name: Brightness Sync
-          description: Sync the brightness from the Inovelli Switch to the Target Light
-          default: true
-          selector:
-            boolean: {}
-        min_brightness:
-          name: Minimum Brightness
-          description: Set the minimum brightness percent for the target light.
-          default: 1
-          selector:
-            number:
-              min: 1.0
-              max: 100.0
-              step: 1.0
-              mode: slider
-        reverse_sync:
-          name: Reverse Sync
-          description: If the Target Light is toggled on/off by an outside source, the Inovelli Switch will sync.
-          default: false
-          selector:
-            boolean: {}
   source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/dev/inovelli-matter-switch-tap-sequences-dev.yaml
 mode: queued
 max_exceeded: silent
