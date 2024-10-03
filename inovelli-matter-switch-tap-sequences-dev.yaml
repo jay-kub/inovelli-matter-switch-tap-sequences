@@ -268,7 +268,7 @@ variables:
   reverseSyncEnabled: !input reverse_sync
   inovelliLight: !input entity_light
 
-trigger:
+triggers:
   - platform: state
     entity_id: !input entity_up
     not_from:
@@ -308,9 +308,9 @@ trigger:
     attribute: brightness
     id: turnOn
 
-condition: []
+conditions: []
 
-action:
+actions:
 - choose:
   - conditions:
     - condition: trigger
