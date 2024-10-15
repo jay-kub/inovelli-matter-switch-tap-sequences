@@ -24,12 +24,12 @@ blueprint:
       - VTM35-SN (White Fan Switch)
       - VTM36 (White Fan/Light Canopy Module)
 
-    Version 0.2.1
-
     ### Support
 
     Go to https://github.com/jay-kub/inovelli-matter-switch-tap-sequences to report issues or request new features.
 
+    Version 0.3
+    Release notes: added fan binding
   domain: automation
   author: jay-kub
   homeassistant:
@@ -270,10 +270,7 @@ blueprint:
           name: Target Fan
           description: |
             Select the fan entity that will be synced to the Config button
-            Off - Held
-            Low - Single
-            Medium - Double
-            High - Triple
+            (Held - Off)  (Single - Low) (Double - Medium) (Triple - High)
           default: []
           selector:
             entity:
@@ -288,7 +285,7 @@ variables:
   inovelliLight: !input entity_light
   targetFan: !input target_fan
 
-triggers:
+trigger:
   - platform: state
     entity_id: !input entity_up
     not_from:
@@ -328,9 +325,9 @@ triggers:
     attribute: brightness
     id: turnOn
 
-conditions: []
+condition: []
 
-actions:
+action:
 - choose:
   - conditions:
     - condition: trigger
@@ -543,9 +540,7 @@ actions:
           metadata: {}
           target:
             entity_id: !input target_light
-- if:
-    - condition: template
-      value_template: '{{ targetFan is not none }}'
+- if: '{{ targetFan != [] }}'
   then:
     - choose:
       - conditions:
