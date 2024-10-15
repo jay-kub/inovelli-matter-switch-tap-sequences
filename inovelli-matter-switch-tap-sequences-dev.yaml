@@ -12,7 +12,7 @@ blueprint:
 
     Light binding will sync the on/off state and brightness from the Inovelli Switch to a Target Light.
 
-    Adjust the device settings as follows to make transitions more fluid:
+    Adjust the device settings as follows to make dimming more fluid:
 
       - Slow down the dimming speed on the Inovelli Switch to account for lag
       - Transition speed should be set to 0 for all devices
@@ -24,7 +24,7 @@ blueprint:
       - VTM35-SN (White Fan Switch)
       - VTM36 (White Fan/Light Canopy Module)
 
-    Version 0.2
+    Version 0.2.1
 
     ### Support
 
