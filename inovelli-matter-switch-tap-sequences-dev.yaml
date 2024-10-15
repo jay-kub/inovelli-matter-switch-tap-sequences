@@ -72,54 +72,6 @@ blueprint:
                   domain: event
                   device_class: button
               multiple: false
-    binding_inputs:
-      name: Light Binding
-      icon: mdi:sync
-      collapsed: true
-      input:
-        entity_light:
-          name: Inovelli Switch Light (Optional)
-          description: The light entity for the Inovelli Switch
-          default: []
-          selector:
-            entity:
-              filter:
-              - domain: light
-                integration: matter
-              multiple: false
-        target_light:
-          name: Target Light (Optional)
-          description: |
-            Select the light entity that will be synced to the Inovelli Switch
-            Hint: to control multiple lights, create a light group
-          default: []
-          selector:
-            entity:
-              filter:
-                - domain: light
-              multiple: false
-        brightness_sync:
-          name: Brightness Sync
-          description: Sync the brightness from the Inovelli Switch to the Target Light
-          default: true
-          selector:
-            boolean: {}
-        reverse_sync:
-          name: Reverse Sync
-          description: If the Target Light is toggled on/off by an outside source, the Inovelli Switch will sync
-          default: false
-          selector:
-            boolean: {}
-        min_brightness:
-          name: Minimum Brightness
-          description: Set the minimum brightness percent for the Target Light
-          default: 1
-          selector:
-            number:
-              min: 1.0
-              max: 100.0
-              step: 1.0
-              mode: slider
     up_inputs:
       name: Up
       icon: mdi:arrow-up-thick
@@ -261,12 +213,80 @@ blueprint:
           default: []
           selector:
             action: {}
+    binding_inputs:
+      name: Light Binding
+      icon: mdi:sync
+      collapsed: true
+      input:
+        entity_light:
+          name: Inovelli Switch Light
+          description: The light entity for the Inovelli Switch
+          default: []
+          selector:
+            entity:
+              filter:
+              - domain: light
+                integration: matter
+              multiple: false
+        target_light:
+          name: Target Light
+          description: |
+            Select the light entity that will be synced to the Inovelli Switch
+            Hint: to control multiple lights, create a light group
+          default: []
+          selector:
+            entity:
+              filter:
+                - domain: light
+              multiple: false
+        brightness_sync:
+          name: Brightness Sync
+          description: Sync the brightness from the Inovelli Switch to the Target Light
+          default: true
+          selector:
+            boolean: {}
+        reverse_sync:
+          name: Reverse Sync
+          description: If the Target Light is toggled on/off by an outside source, the Inovelli Switch will sync
+          default: false
+          selector:
+            boolean: {}
+        min_brightness:
+          name: Minimum Brightness
+          description: Set the minimum brightness percent for the Target Light
+          default: 1
+          selector:
+            number:
+              min: 1.0
+              max: 100.0
+              step: 1.0
+              mode: slider
+    fan_inputs:
+      name: Fan Binding
+      icon: mdi:fan
+      collapsed: true
+      input:
+        target_fan:
+          name: Target Fan
+          description: |
+            Select the fan entity that will be synced to the Config button
+            Off - Held
+            Low - Single
+            Medium - Double
+            High - Triple
+          default: []
+          selector:
+            entity:
+              filter:
+              - domain: fan
+              multiple: false
   source_url: https://github.com/jay-kub/inovelli-matter-switch-tap-sequences/blob/dev/inovelli-matter-switch-tap-sequences-dev.yaml
 mode: queued
 max_exceeded: silent
 variables:
   reverseSyncEnabled: !input reverse_sync
   inovelliLight: !input entity_light
+  targetFan: !input target_fan
 
 triggers:
   - platform: state
@@ -523,3 +543,50 @@ actions:
           metadata: {}
           target:
             entity_id: !input target_light
+- if:
+    - condition: template
+      value_template: '{{ targetFan is not none }}'
+  then:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: multi_press_1
+        sequence:
+        - action: fan.turn_on
+          data:
+            percentage: 33
+          target:
+           entity_id: !input target_fan
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: multi_press_2
+        sequence:
+        - action: fan.turn_on
+          data:
+            percentage: 66
+          target:
+           entity_id: !input target_fan
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: multi_press_3
+        sequence:
+        - action: fan.turn_on
+          data:
+            percentage: 100
+          target:
+           entity_id: !input target_fan
+      - conditions:
+        - condition: state
+          entity_id: !input entity_config
+          attribute: event_type
+          state: long_press
+        sequence:
+        - action: fan.turn_off
+          target:
+           entity_id: !input target_fan
