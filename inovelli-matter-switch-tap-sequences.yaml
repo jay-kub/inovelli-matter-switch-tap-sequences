@@ -526,7 +526,7 @@ action:
           {{ (((100 - minBrightness) / 100 ) * inovelliLightBrightness + minBrightness ) | round(0) }}
         brightnessSyncEnabled: !input brightness_sync
     - choose:
-      - conditions: '{{ brightnessSyncEnabled }}'
+      - conditions: '{{ brightnessSyncEnabled and inovelliLightBrightness != 0 }}'
         sequence:
         - action: light.turn_on
           metadata: {}
