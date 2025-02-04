@@ -489,6 +489,11 @@ action:
           - reverseSyncTurnOff
           - reverseSyncTurnOn
     sequence:
+    - variables:
+        targetLightBrightness: |
+          {{ (state_attr(targetLight, 'brightness') / 2.55) }}
+        inovelliBrightnessPct: |
+          {{ ((targetLightBrightness - minBrightness) * (100 / (100 - minBrightness))) | round(0) }}
       - if: '{{ reverseSyncEnabled }}'
         then:
           - choose:
@@ -509,7 +514,8 @@ action:
                 - action: light.turn_on
                   target:
                     entity_id: !input entity_light
-                  data: {}
+                  data:
+            brightness_pct: '{{ inovelliBrightnessPct }}'
   - conditions:
       - condition: trigger
         id:
