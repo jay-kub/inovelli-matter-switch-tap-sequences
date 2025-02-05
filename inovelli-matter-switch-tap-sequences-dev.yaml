@@ -489,33 +489,41 @@ action:
           - reverseSyncTurnOff
           - reverseSyncTurnOn
     sequence:
-    - variables:
-        targetLightBrightness: |
-          {{ (state_attr(targetLight, 'brightness') / 2.55) }}
-        inovelliBrightnessPct: |
-          {{ ((targetLightBrightness - minBrightness) * (100 / (100 - minBrightness))) | round(0) }}
-      - if: '{{ reverseSyncEnabled }}'
-        then:
-          - choose:
-              - conditions:
-                  - condition: trigger
-                    id:
-                      - reverseSyncTurnOff
-                sequence:
-                - action: light.turn_off
-                  target:
-                    entity_id: !input entity_light
-                  data: {}
-              - conditions:
-                  - condition: trigger
-                    id:
-                      - reverseSyncTurnOn
-                sequence:
-                - action: light.turn_on
-                  target:
-                    entity_id: !input entity_light
-                  data:
-            brightness_pct: '{{ inovelliBrightnessPct }}'
+    - if: '{{ reverseSyncEnabled }}'
+      then:
+        - choose:
+            - conditions:
+                - condition: trigger
+                  id:
+                    - reverseSyncTurnOff
+              sequence:
+              - action: light.turn_off
+                target:
+                  entity_id: !input entity_light
+                data: {}
+            - conditions:
+                - condition: trigger
+                  id:
+                    - reverseSyncTurnOn
+              sequence:
+              - variables:
+                  targetLight: !input target_light
+                  targetLightBrightness: |
+                    {{ (state_attr(targetLight, 'brightness') / 2.55) }}
+                  minBrightness: !input min_brightness
+                  convertedLightBrightness: |
+                    {{ ((targetLightBrightness - minBrightness) * (100 / (100 - minBrightness))) | round(0) }}
+                  inovelliBrightnessPct: |
+                    {% if convertedBrightnessPct == 0 %}
+                    {{ minBrightness }}
+                    {% else %}
+                    {{ convertedLightBrightness }}
+                    {% endif %}
+              - action: light.turn_on
+                target:
+                  entity_id: !input entity_light
+                data:
+                  brightness_pct: '{{ inovelliBrightnessPct }}'
   - conditions:
       - condition: trigger
         id:
