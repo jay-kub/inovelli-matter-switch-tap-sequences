@@ -14,4 +14,5 @@
 - VTM31-SN (White Dimmer Switch)
 - VTM35-SN (White Fan Switch)
 - VTM36 (White Fan/Light Canopy Module)
-#### Version 0.2
+#### Version 0.3
+Release notes: added fan binding
