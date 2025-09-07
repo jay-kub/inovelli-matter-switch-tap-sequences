@@ -289,19 +289,16 @@ trigger:
   - platform: state
     entity_id: !input entity_up
     not_from:
-    - unknown
     - unavailable
     id: up
   - platform: state
     entity_id: !input entity_down
     not_from:
-    - unknown
     - unavailable
     id: down
   - platform: state
     entity_id: !input entity_config
     not_from:
-    - unknown
     - unavailable
     id: config
   - platform: state
