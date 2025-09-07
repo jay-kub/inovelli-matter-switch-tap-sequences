@@ -28,7 +28,7 @@ blueprint:
 
     Go to https://github.com/jay-kub/inovelli-matter-switch-tap-sequences to report issues or request new features.
 
-    Version 0.3
+    Version 0.3.1
     Release notes: added fan binding
   domain: automation
   author: jay-kub
