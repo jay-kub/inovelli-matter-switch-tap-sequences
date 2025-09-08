@@ -11,8 +11,9 @@
  - Default brightness when turned on should match for all devices
  - If the target light already has a device setting for minimum brightness, then leave the blueprint minimum brightness at 1
 ### Supported Models
+- VTM30-SN (White On/Off Switch)
 - VTM31-SN (White Dimmer Switch)
 - VTM35-SN (White Fan Switch)
 - VTM36 (White Fan/Light Canopy Module)
-#### Version 0.3
-Release notes: added fan binding
+#### Version 0.3.1
+Bugfix: remove 'not_from: unknown' from trigger
