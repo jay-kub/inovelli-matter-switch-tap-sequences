@@ -16,5 +16,5 @@
 - VTM31-SN (White Dimmer Switch)
 - VTM35-SN (White Fan Switch)
 - VTM36 (White Fan/Light Canopy Module)
-#### Version 0.3.3 (11/13/2025)
-Bugfix: added config button check to fan sync
+#### Version 0.3.4 (11/13/2025)
+Bugfix: fix syslog error on startup

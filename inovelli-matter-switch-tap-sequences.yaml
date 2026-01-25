@@ -31,8 +31,8 @@ blueprint:
 
     Go to https://github.com/jay-kub/inovelli-matter-switch-tap-sequences to report issues or request new features.
 
-    #### Version 0.3.3 (11/13/2025)
-    Bugfix: added config button check to fan sync
+    #### Version 0.3.4 (01/24/2026)
+    Bugfix: fix syslog error on startup
   domain: automation
   author: jay-kub
   homeassistant:
@@ -312,7 +312,7 @@ trigger:
     from: "on"
     to: "off"
   - platform: state
-    enabled: '{{ inovelliLight is not none and not brightnessSyncEnabled }}'
+    enabled: '{{ inovelliLight is not none and not (brightnessSyncEnabled | default(false)) }}'
     entity_id: !input entity_light
     id: turnOn
     from: "off"
